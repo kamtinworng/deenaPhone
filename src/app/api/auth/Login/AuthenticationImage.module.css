@@ -1,0 +1,22 @@
+.wrapper {
+  min-height: rem(100vh);
+  background-size: cover;
+  background-image: url(https://scontent.fbkk10-1.fna.fbcdn.net/v/t39.30808-6/362250931_240955448804264_828037167222955255_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHzQKTyA6Y-BMduejr67CkWPgOGoAluCPQ-A4agCW4I9IThZ4-pNsmpkWmSKLEv3FFascBGmMDHcQuz3tzLH4Ak&_nc_ohc=ZJ-5kYhpEXUQ7kNvgFcl4ou&_nc_ht=scontent.fbkk10-1.fna&oh=00_AYBIwiDtfdKCyPeFYcdgHw0CFWapORnoO-m2C7J5yUky8g&oe=66E97CDD);
+}
+
+.form {
+  border-right: rem(1px) solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
+  min-height: rem(900px);
+  max-width: rem(450px);
+  padding-top: rem(80px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    max-width: 100%;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: Greycliff CF, var(--mantine-font-family);
+}
