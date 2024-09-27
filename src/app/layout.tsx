@@ -29,7 +29,7 @@ const brand: MantineColorsTuple = [
 
 const theme = createTheme({
   colors: {
-    brand,
+    brand: brand,
   },
 });
 

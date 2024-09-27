@@ -1,5 +1,5 @@
 function CMS() {
-  return <></>;
+  return <>test</>;
 }
 
 export default CMS;

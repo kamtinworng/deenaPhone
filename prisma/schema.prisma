@@ -21,3 +21,21 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Products {
+  id String @id @default(cuid())
+
+  // model phone
+  images               String[]
+  deviceName           String
+  deviceDetail         String
+  indentifier          String // IEMI or serial
+  price                Int // ราคาเต็ม
+  deposit              Int // เงินดาวน์
+  numberOfInstallments String // จำนวนงวด
+  icloud               String?
+  passwordIcloud       String?
+  lockscreen           String?
+  idLoad               String?
+  passwordIdLoad       String?
+}

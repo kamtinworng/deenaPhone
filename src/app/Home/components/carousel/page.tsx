@@ -1,12 +1,10 @@
 "use client";
 import { Carousel } from "@mantine/carousel";
-import {
-  // Container,
-  Image,
-} from "@mantine/core";
+import { Image } from "@mantine/core";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import Mobile from "../../../../../libs/mobile";
+import "@mantine/carousel/styles.css";
 function Banner() {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
 
