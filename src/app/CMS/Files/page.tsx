@@ -33,7 +33,7 @@ export interface Products {
 }
 
 function Files() {
-  const { data, loading, error, refetch, abort } = useFetch<Products[]>(
+  const { data } = useFetch<Products[]>(
     `${process.env.NEXTAUTH_URL as string}/getProducts`
   );
 

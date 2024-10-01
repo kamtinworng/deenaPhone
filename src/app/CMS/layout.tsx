@@ -13,7 +13,6 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
-// import { useDisclosure } from "@mantine/hooks";
 import {
   Icon,
   IconBuildingStore,
@@ -54,6 +53,12 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
       label: "หน้าแรก",
       link: "/CMS",
       code: "CMS",
+    },
+    {
+      icon: IconBuildingStore,
+      label: "สาขาร้าน",
+      link: "/CMS/Branches",
+      code: "Branches",
     },
     {
       icon: IconShoppingCart,
@@ -260,9 +265,7 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
           />
         </Flex>
       </AppShell.Navbar>
-      <AppShell.Main bg={"pink"}>
-        <div>{children}</div>
-      </AppShell.Main>
+      <AppShell.Main bg={"#f3f4f6"}>{children}</AppShell.Main>
     </AppShell>
   );
 }

@@ -28,6 +28,7 @@ function Banner() {
         plugins={[autoplay.current]}
         onMouseEnter={autoplay.current.stop}
         onMouseLeave={autoplay.current.reset}
+        m={"md"}
       >
         {images.map((image, index) => {
           return (

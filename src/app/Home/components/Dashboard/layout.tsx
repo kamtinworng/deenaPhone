@@ -5,9 +5,7 @@ export default function Layout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <div>{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

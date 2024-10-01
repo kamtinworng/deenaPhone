@@ -11,96 +11,99 @@ import {
 } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
   const [opened, { toggle }] = useDisclosure();
   const { width } = useViewportSize();
   return (
-    <div>
-      <AppShell
-        header={{ height: 60 }}
-        navbar={{
-          width: 300,
-          breakpoint: "md",
-          collapsed: { desktop: true, mobile: !opened },
-        }}
-        padding="md"
-      >
-        <AppShell.Header>
-          <Group h="100%" px="md">
-            <Group
-              justify={width < 1000 ? "center" : "space-between"}
-              style={{ flex: 1 }}
-            >
-              <Group ml="xl" gap={"md"} visibleFrom="md">
-                <Image src={"./logo.jpg"} alt="logo" h={50} />
-                <Button variant="subtle" color="brand">
-                  Home
-                </Button>
-                <Button variant="subtle" color="brand">
-                  Blog
-                </Button>
-                <Button variant="subtle" color="brand">
-                  Contacts
-                </Button>
-                <Button variant="subtle" color="brand">
-                  Support
-                </Button>
-              </Group>
-              <Group
-                justify="center"
-                align="center"
-                w={width < 1000 ? "100%" : "auto"}
-              >
-                <Box hidden={width > 1000}>
-                  <Image src={"./logo.jpg"} alt="logo" h={50} />
-                </Box>
-                <TextInput
-                  placeholder="Search"
-                  radius={"md"}
-                  leftSection={<IconSearch size={14} />}
-                  w={width < 1000 ? "70%" : "auto"}
-                />
-                <Box hidden={width < 1000}>
-                  <Button color="brand">สำหรับเจ้าหน้าที่</Button>
-                </Box>
-              </Group>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: 300,
+        breakpoint: "md",
+        collapsed: { desktop: true, mobile: !opened },
+      }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Group
+            justify={width < 1000 ? "center" : "space-between"}
+            style={{ flex: 1 }}
+          >
+            <Group ml="xl" gap={"md"} visibleFrom="md">
+              <Image src={"./logo.jpg"} alt="logo" h={50} />
+              <Button variant="subtle" color="brand">
+                Home
+              </Button>
+              <Button variant="subtle" color="brand">
+                Blog
+              </Button>
+              <Button variant="subtle" color="brand">
+                Contacts
+              </Button>
+              <Button variant="subtle" color="brand">
+                Support
+              </Button>
             </Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="md"
-              size="sm"
-            />
+            <Group
+              justify="center"
+              align="center"
+              w={width < 1000 ? "100%" : "auto"}
+            >
+              <Box hidden={width > 1000}>
+                <Image src={"./logo.jpg"} alt="logo" h={50} />
+              </Box>
+              <TextInput
+                placeholder="Search"
+                radius={"md"}
+                leftSection={<IconSearch size={14} />}
+                w={width < 1000 ? "70%" : "auto"}
+              />
+              <Box hidden={width < 1000}>
+                <Button
+                  color="brand"
+                  onClick={() => router.push("/api/auth/Login")}
+                >
+                  สำหรับเจ้าหน้าที่
+                </Button>
+              </Box>
+            </Group>
           </Group>
-        </AppShell.Header>
+          <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
+        </Group>
+      </AppShell.Header>
 
-        <AppShell.Navbar py="md" px={4}>
-          <Button variant="subtle" color="brand">
-            Home
-          </Button>
-          <Button variant="subtle" color="brand">
-            Blog
-          </Button>
-          <Button variant="subtle" color="brand">
-            Contacts
-          </Button>
-          <Button variant="subtle" color="brand">
-            Support
-          </Button>
-          <Button variant="subtle" color="brand">
-            สำหรับเจ้าหน้าที่
-          </Button>
-        </AppShell.Navbar>
-
-        <AppShell.Main style={{ backgroundColor: "#f3f4f6" }}>
-          {children}
-        </AppShell.Main>
-      </AppShell>
-    </div>
+      <AppShell.Navbar py="md" px={4}>
+        <Button variant="subtle" color="brand">
+          Home
+        </Button>
+        <Button variant="subtle" color="brand">
+          Blog
+        </Button>
+        <Button variant="subtle" color="brand">
+          Contacts
+        </Button>
+        <Button variant="subtle" color="brand">
+          Support
+        </Button>
+        <Button
+          variant="subtle"
+          color="brand"
+          onClick={() => router.push("/api/auth/Login")}
+        >
+          สำหรับเจ้าหน้าที่
+        </Button>
+      </AppShell.Navbar>
+      <AppShell.Main style={{ backgroundColor: "#f3f4f6" }} p={0}>
+        {children}
+      </AppShell.Main>
+    </AppShell>
   );
 }
