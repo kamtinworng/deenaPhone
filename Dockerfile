@@ -2,12 +2,15 @@ FROM node:18
 
 WORKDIR /src/app
 
-COPY . /src/app/
+
+COPY package*.json .
 
 RUN npm ci
 
-RUN npx next build
-
 EXPOSE 3000
+
+COPY . /src/app/
+
+RUN npx next build
 
 CMD [ "npx", "next","start" ]

@@ -40,8 +40,6 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const path = pathname.split("/")[2];
 
-  console.log(path);
-
   const links: {
     label: string;
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;

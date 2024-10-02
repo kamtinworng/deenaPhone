@@ -19,7 +19,11 @@ model Branch {
   name String
 
   profileImage String?
-  Products     Products[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Products Products[]
 
   @@unique([id, code])
 }

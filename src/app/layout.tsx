@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import SessionProviderCustom from "./provider/provider";
 import { Mitr } from "next/font/google";
+
 export const metadata: Metadata = {
   title: "Deena Phone",
   description: "Create by Munintorn.k",
