@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prismaClient from "../../../../libs/prisma";
-import bcrypt from "bcrypt";
-
+import { hash } from "bcrypt-ts";
 export interface TYPEREGISTER {
   username: string;
   password: string;
@@ -21,7 +20,7 @@ export async function POST(req: NextRequest) {
     if (findDuplicateUser)
       return NextResponse.json({ message: "username ซ้ำ" });
 
-    const hashPassword = await bcrypt.hash(data.password, 10);
+    const hashPassword = await hash(data.password, 10);
 
     const createUser = await prismaClient.user.create({
       data: {

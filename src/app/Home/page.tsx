@@ -6,7 +6,7 @@ import NewsPromotions from "./components/NewsPromotions/page";
 import Products from "./components/Products/page";
 import Dashboard from "./components/Dashboard/page";
 import AboutUs from "./components/AboutUs/page";
-import FooterCentered from "./components/Footer/page";
+// import FooterCentered from "./components/Footer/page";
 
 function Page() {
   return (
@@ -17,7 +17,7 @@ function Page() {
         <Products />
         <Dashboard />
         <AboutUs />
-        <FooterCentered />
+        {/* <FooterCentered /> */}
       </Stack>
     </div>
   );

@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# Ignore build directories
+dist
+
 # production
 /build
 

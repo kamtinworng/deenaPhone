@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prismaClient from "../../../../libs/prisma";
-import bcrypt from "bcrypt";
+import { compare } from "bcrypt-ts";
 
 export interface TYPELOGIN {
   username: string;
@@ -20,10 +20,7 @@ export async function POST(req: NextRequest) {
     if (!findUser)
       return NextResponse.json({ message: "username หรือ password ผิด" });
 
-    const checkPassword = await bcrypt.compare(
-      data.password,
-      findUser.password
-    );
+    const checkPassword = await compare(data.password, findUser.password);
 
     if (!checkPassword)
       return NextResponse.json({ message: "username หรือ password ผิด" });
