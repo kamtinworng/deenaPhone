@@ -4,7 +4,7 @@ WORKDIR /src/app
 
 # Copy package files and install dependencies
 COPY package*.json . 
-RUN npm ci --legacy-peer-deps
+RUN npm ci --force
 
 # Copy the rest of the app
 COPY . /src/app/
