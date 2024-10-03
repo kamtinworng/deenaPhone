@@ -1,24 +1,5 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/auth/Login/page": "app/api/auth/Login/page.js",
-  "/api/createBrand/route": "app/api/createBrand/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/login/route": "app/api/login/route.js",
-  "/api/getProducts/route": "app/api/getProducts/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/register/route": "app/api/register/route.js",
   "/page": "app/page.js",
-  "/CMS/Branches/page": "app/CMS/Branches/page.js",
-  "/CMS/Branches/newBranch/page": "app/CMS/Branches/newBranch/page.js",
-  "/CMS/Products/page": "app/CMS/Products/page.js",
-  "/CMS/page": "app/CMS/page.js",
-  "/CMS/Files/page": "app/CMS/Files/page.js",
-  "/CMS/SellSystem/page": "app/CMS/SellSystem/page.js",
-  "/CMS/Dashboard/page": "app/CMS/Dashboard/page.js",
-  "/Home/page": "app/Home/page.js",
-  "/Home/components/AboutUs/page": "app/Home/components/AboutUs/page.js",
-  "/Home/components/NewsPromotions/page": "app/Home/components/NewsPromotions/page.js",
-  "/Home/components/Products/page": "app/Home/components/Products/page.js",
-  "/Home/components/carousel/page": "app/Home/components/carousel/page.js",
-  "/Home/components/Dashboard/page": "app/Home/components/Dashboard/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/Home/page": "app/Home/page.js"
 }
