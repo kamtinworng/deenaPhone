@@ -1,36 +1,43 @@
-version: '3'
-
+version: '3.8'
+ 
 services:
   db:
+    container_name: postgres_container
     image: postgres
     restart: always
     environment:
-      DATABASE_URL: postgresql://postgres:password@52.77.242.119:5432/mydb?schema=public"
-      NEXTAUTH_SECRET : "nextauthSecret"
-      NEXTAUTH_URL : 'http://52.77.242.119:3000/api/'
-
       POSTGRES_USER : postgres
       POSTGRES_PASSWORD: password
-
-      #bucket name (S3)
-      BUCKET_NAME : "bucket-deenaphone"
-
-      #bucket region
-      BUCKET_REGION : "ap-southeast-1"
-
-      # access key ID (S3)
-      ACCESS_KEY : "AKIAXQIQATPPNLYIKO52"
-
-      # secret access key (S3)
-      SECRET_ACCESS_KEY : "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"
-    volumes:
-      - pgdata:/var/lib/postgresql/data 
- 
-  adminer:
-    image: adminer
-    restart: always
+      POSTGRES_DB: mydb
     ports:
-      - 5432:5432
+      -"5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+ 
+web:
+    container_name: deena_phone
+    build:
+      context: ./src
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+     DATABASE_URL : "postgresql://postgres:password@52.77.242.119:5432/mydb?schema=public"
+    NEXTAUTH_SECRET : "nextauthSecret"
+    NEXTAUTH_URL : 'http://52.77.242.119:3000/api/'
+ 
+    #bucket name (S3)
+    BUCKET_NAME : "bucket-deenaphone"
+ 
+    #bucket region
+    BUCKET_REGION : "ap-southeast-1"
+ 
+    # access key ID (S3)
+    ACCESS_KEY : "AKIAXQIQATPPNLYIKO52"
+ 
+    # secret access key (S3)
+    SECRET_ACCESS_KEY : "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"
  
 volumes:
-  pgdata:
+  postgres_data:
