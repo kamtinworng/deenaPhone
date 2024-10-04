@@ -9,7 +9,7 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import SessionProviderCustom from "./provider/provider";
-import { Mitr } from "next/font/google";
+import { Kanit } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Deena Phone",
@@ -35,10 +35,10 @@ const theme = createTheme({
   },
 });
 
-const mitr = Mitr({
+const kanit = Kanit({
   weight: ["200"],
   subsets: ["thai"],
-  variable: "--font-Mitr",
+  variable: "--font-Kanit",
 });
 
 export default function RootLayout({
@@ -47,8 +47,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={mitr.className}>
-      <body>
+    <html lang="en">
+      <body className={kanit.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
           <SessionProviderCustom>{children}</SessionProviderCustom>
         </MantineProvider>

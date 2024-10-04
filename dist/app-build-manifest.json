@@ -26,6 +26,61 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/Home/layout.js"
+    ],
+    "/api/auth/Login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/Login/page.js"
+    ],
+    "/api/auth/Login/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/Login/loading.js"
+    ],
+    "/CMS/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/page.js"
+    ],
+    "/CMS/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/layout.js"
+    ],
+    "/CMS/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/loading.js"
+    ],
+    "/CMS/Branches/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/page.js"
+    ],
+    "/CMS/Branches/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/loading.js"
+    ],
+    "/CMS/Branches/newBranch/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/newBranch/page.js"
+    ],
+    "/CMS/Branches/newBranch/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/newBranch/loading.js"
+    ],
+    "/CMS/SellSystem/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/SellSystem/page.js"
+    ],
+    "/CMS/SellSystem/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/SellSystem/loading.js"
     ]
   }
 }

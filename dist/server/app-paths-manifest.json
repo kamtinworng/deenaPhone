@@ -1,5 +1,8 @@
 {
-  "/page": "app/page.js",
+  "/api/auth/Login/page": "app/api/auth/Login/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/Home/page": "app/Home/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/Home/page": "app/Home/page.js",
+  "/CMS/SellSystem/page": "app/CMS/SellSystem/page.js",
+  "/CMS/Branches/newBranch/page": "app/CMS/Branches/newBranch/page.js"
 }
