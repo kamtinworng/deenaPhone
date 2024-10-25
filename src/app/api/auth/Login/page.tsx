@@ -66,8 +66,8 @@ function Page() {
         <Image
           fit="cover"
           alt="background image"
-          src={"/image1.jpg"}
           h={"100vh"}
+          src={"/image1.jpg"}
         />
       </Box>
     </Flex>

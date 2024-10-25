@@ -1,113 +1,85 @@
 "use client";
 import {
   Paper,
-  Group,
-  ThemeIcon,
-  SimpleGrid,
-  Text,
   Table,
   Pagination,
   Center,
   Flex,
   Title,
   TextInput,
+  Image,
+  Button,
 } from "@mantine/core";
-import { IconArrowUpRight, IconArrowDownRight } from "@tabler/icons-react";
-import classes from "./StatsGridIcons.module.css";
-import { useFetch } from "@mantine/hooks";
+import { IconPlus } from "@tabler/icons-react";
+import { useDebouncedState, useFetch } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export interface Products {
-  id: string;
-  images: string[];
-  deviceName: string;
-  deviceDetail: string;
-  indentifier: string;
-  price: number; // ราคาเต็ม
-  deposit: number; // เงินดาวน์
-  numberOfInstallments: string; // จำนวนงวด
-  icloud: string | null;
-  passwordIcloud: string | null;
-  lockscreen: string;
-  idLoad: string;
-  passwordIdLoad: string;
+  findProducts: {
+    id: string;
+    images: string[];
+    deviceName: string;
+    deviceDetail: string;
+    indentifier: string;
+    price: number; // ราคาเต็ม
+    deposit: number; // เงินดาวน์
+    numberOfInstallments: string; // จำนวนงวด
+    icloud: string | null;
+    passwordIcloud: string | null;
+    lockscreen: string;
+    idLoad: string;
+    status: "ForSale" | "SoldOut";
+    passwordIdLoad: string;
+    branch: { name: string };
+  }[];
+  countFindInstallmentPayments: number;
 }
 
 function Files() {
-  const { data } = useFetch<Products[]>(
-    `${process.env.NEXTAUTH_URL as string}/getProducts`
+  const [search, setSearch] = useDebouncedState("", 200);
+  const [page, setPage] = useState(1);
+
+  const { data: products } = useFetch<Products>(
+    `${
+      process.env.NEXT_PUBLIC_NEXT_API as string
+    }/getProducts?search=${search}&page=${page}`
   );
 
-  const datad = [
-    { title: "Revenue", value: "$13,456", diff: 34 },
-    { title: "Profit", value: "$4,145", diff: -13 },
-    { title: "Coupons usage", value: "745", diff: 18 },
-    { title: "Coupons usage", value: "745", diff: 18 },
-  ];
+  const router = useRouter();
 
-  const stats = datad.map((stat) => {
-    const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
-    return (
-      <Paper withBorder p="md" radius="md" key={stat.title}>
-        <Group justify="apart">
-          <div>
-            <Text
-              c="dimmed"
-              tt="uppercase"
-              fw={700}
-              fz="xs"
-              className={classes.label}
-            >
-              {stat.title}
-            </Text>
-            <Text fw={700} fz="xl">
-              {stat.value}
-            </Text>
-          </div>
-          <ThemeIcon
-            color="gray"
-            variant="light"
-            style={{
-              color:
-                stat.diff > 0
-                  ? "var(--mantine-color-teal-6)"
-                  : "var(--mantine-color-red-6)",
-            }}
-            size={38}
-            radius="md"
-          >
-            <DiffIcon size="1.8rem" stroke={1.5} />
-          </ThemeIcon>
-        </Group>
-        <Text c="dimmed" fz="sm" mt="md">
-          <Text component="span" c={stat.diff > 0 ? "teal" : "red"} fw={700}>
-            {stat.diff}%
-          </Text>{" "}
-          {stat.diff > 0 ? "increase" : "decrease"} compared to last month
-        </Text>
-      </Paper>
-    );
-  });
-
-  const rows = data?.map((element) => (
+  const rows = products?.findProducts?.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>{element.id}</Table.Td>
       <Table.Td>{element.deviceName}</Table.Td>
       <Table.Td>{element.indentifier}</Table.Td>
-      <Table.Td>{element.images[0]}</Table.Td>
+      <Table.Td>
+        <Image alt="image" src={element.images[0]} h={50} />
+      </Table.Td>
     </Table.Tr>
   ));
 
   return (
     <>
-      <SimpleGrid cols={{ base: 1, sm: 4 }}>{stats}</SimpleGrid>;
       <Paper withBorder p="md" radius="md">
         <Flex justify={"space-between"}>
           <Title order={2} c={"brand"}>
             ข้อมูลสินค้า
           </Title>
-          <TextInput />
+          <TextInput
+            onChange={(e) => {
+              setSearch(e.currentTarget.value);
+            }}
+          />
+          <Button
+            color="brand"
+            leftSection={<IconPlus size={14} />}
+            onClick={() => router.push("./Files/createProduct")}
+          >
+            เพิ่มสินค้าใหม่
+          </Button>
         </Flex>
-        <Table stickyHeader stickyHeaderOffset={60}>
+        <Table stickyHeader stickyHeaderOffset={60} mt={"lg"}>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>id</Table.Th>
@@ -119,7 +91,10 @@ function Files() {
           <Table.Tbody>{rows}</Table.Tbody>
           <Table.Caption>
             <Center>
-              <Pagination total={10} />
+              <Pagination
+                onChange={(e) => setPage(e)}
+                total={products?.countFindInstallmentPayments ?? 0}
+              />
             </Center>
           </Table.Caption>
         </Table>

@@ -3,6 +3,9 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
 import "@mantine/dropzone/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
+import "@mantine/charts/styles.css";
 import {
   createTheme,
   MantineColorsTuple,
@@ -10,6 +13,8 @@ import {
 } from "@mantine/core";
 import SessionProviderCustom from "./provider/provider";
 import { Kanit } from "next/font/google";
+import { DatesProvider } from "@mantine/dates";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata: Metadata = {
   title: "Deena Phone",
@@ -49,8 +54,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={kanit.className}>
-        <MantineProvider theme={theme} defaultColorScheme="light">
-          <SessionProviderCustom>{children}</SessionProviderCustom>
+        <MantineProvider theme={theme}>
+          <SessionProviderCustom>
+            <DatesProvider settings={{ locale: "th", timezone: "UTC" }}>
+              <Notifications />
+              {children}
+            </DatesProvider>
+          </SessionProviderCustom>
         </MantineProvider>
       </body>
     </html>

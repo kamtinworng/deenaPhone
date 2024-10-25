@@ -8,22 +8,14 @@ import "@mantine/carousel/styles.css";
 function Banner() {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
 
-  if (Mobile()) return <></>;
-
-  const images = [
-    "/banner.jpg",
-    "/banner.jpg",
-    "/banner.jpg",
-    "/banner.jpg",
-    "/banner.jpg",
-  ];
+  const images = ["/banner.jpg", "/image1.jpg"];
 
   return (
     <div>
       <Carousel
         withIndicators
-        height={"50vh"}
         loop
+        height={Mobile() ? 200 : 500}
         align="start"
         plugins={[autoplay.current]}
         onMouseEnter={autoplay.current.stop}

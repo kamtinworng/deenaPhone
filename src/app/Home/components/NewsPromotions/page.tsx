@@ -1,4 +1,5 @@
 "use client";
+import { typeBlog } from "@/app/CMS/blog/page";
 import {
   Flex,
   Title,
@@ -11,15 +12,17 @@ import {
   Avatar,
   Box,
 } from "@mantine/core";
+import { useFetch } from "@mantine/hooks";
+import Mobile from "../../../../../libs/mobile";
 
 function NewsPromotions() {
-  const mockData = [
-    { image: "/summ-ip16.jpg", type: "news" },
-    { image: "/image1.jpg", type: "promotion" },
-    { image: "/image1.jpg", type: "news" },
-  ];
+  const { data: blogs } = useFetch<typeBlog>(
+    `${
+      process.env.NEXT_PUBLIC_NEXT_API as string
+    }/getBlogs?search=${""}&page=1&limit=3`
+  );
 
-  const cardNewsORPromotions = mockData.map((data, index) => {
+  const cardNewsORPromotions = blogs?.findBlogs.map((data, index) => {
     return (
       <Card mt={"lg"} padding="lg" key={index}>
         <Card.Section>
@@ -27,15 +30,14 @@ function NewsPromotions() {
         </Card.Section>
 
         <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>Norway Fjord Adventures</Text>
-          <Badge color={data.type === "news" ? "blue" : "brand"}>
-            {data.type}
+          <Text fw={500}>{data.title}</Text>
+          <Badge color={data.typeBlog === "news" ? "blue" : "brand"}>
+            {data.typeBlog}
           </Badge>
         </Group>
 
         <Text size="sm" c="dimmed">
-          With Fjord Tours you can explore more of the magical fjord landscapes
-          with tours and activities on and around the fjords of Norway
+          {data.detail}
         </Text>
 
         <Card.Section p={"md"}>
@@ -50,13 +52,23 @@ function NewsPromotions() {
 
   return (
     <Box m={"md"}>
-      <Flex justify={"center"} direction={"column"} align={"center"}>
-        <Title c={"brand"}>ข่าวสาร อัพเดตจากทางร้าน</Title>
-        <Text size="lg" ff={"text"}>
+      <Flex
+        justify={"center"}
+        direction={"column"}
+        align={Mobile() ? "start" : "center"}
+      >
+        <Title c={"brand"} order={Mobile() ? 4 : 1}>
+          ข่าวสาร อัพเดตจากทางร้าน
+        </Title>
+        <Text size={Mobile() ? "sm" : "lg"} ff={"text"}>
           Learn how to grow your business with our expert advice.
         </Text>
       </Flex>
-      <SimpleGrid cols={3} spacing="md" verticalSpacing="md">
+      <SimpleGrid
+        cols={{ lg: 3, md: 2, xs: 1 }}
+        spacing="md"
+        verticalSpacing="md"
+      >
         {cardNewsORPromotions}
       </SimpleGrid>
     </Box>

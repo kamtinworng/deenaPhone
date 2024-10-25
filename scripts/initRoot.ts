@@ -1,6 +1,3 @@
-const initRoot = () => {
-    
-    
-};
+const initRoot = () => {};
 
 initRoot();

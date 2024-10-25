@@ -22,11 +22,16 @@ import {
   IconUpload,
   IconX,
 } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import SetBreadcrumbs, {
+  TYPEBREADCRUMBS,
+} from "../../../../../libs/breadcrumbs";
+import { notifications } from "@mantine/notifications";
 
 function NewBranch() {
   const [files, setFiles] = useState<FileWithPath[]>([]);
-  const [file, setFile] = useState("");
+  const router = useRouter();
 
   const form = useForm({
     mode: "uncontrolled",
@@ -54,46 +59,80 @@ function NewBranch() {
     );
   });
 
-  const createBranch = (code: string, name: string) => {
+  const createBranch = async (code: string, name: string) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    const handleChange = (file: File | null) => {
-      if (file === null) return;
-      const reader = new FileReader();
+    // File handling
+    const handleChange = (file: File | null): Promise<string | null> => {
+      return new Promise((resolve, reject) => {
+        if (file === null) return resolve(null);
+        const reader = new FileReader();
 
-      reader.onload = (event) => {
-        if (typeof event.target?.result !== "string") return;
+        reader.onload = (event) => {
+          if (typeof event.target?.result !== "string") return resolve(null);
 
-        const dataUri = event.target.result;
-        const [, base64] = dataUri.split(",");
-        setFile(base64);
-      };
-      reader.readAsDataURL(file);
+          const dataUri = event.target.result;
+          const [, base64] = dataUri.split(",");
+          resolve(base64);
+        };
+
+        reader.onerror = () => reject(new Error("Failed to read file"));
+        reader.readAsDataURL(file);
+      });
     };
 
-    handleChange(files[0]);
+    try {
+      // Await the file read process
+      const file = await handleChange(files[0]);
 
-    const raw = JSON.stringify({
-      code: code,
-      name: name,
-      profileImage: file,
-    });
+      // Prepare the request body
+      const raw = JSON.stringify({
+        code: code,
+        name: name,
+        profileImage: file,
+      });
 
-    console.log(process.env.NEXT_PUBLIC_NEXT_API);
+      // Await the fetch call
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_NEXT_API as string}/createBrand`,
+        {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+        }
+      );
 
-    fetch(`${process.env.NEXT_PUBLIC_NEXT_API as string}/createBrand`, {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    })
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+      const result = await response.json();
+
+      if (result.status === "ok") {
+        router.push(`./${result.createUser.code}`);
+      } else {
+        notifications.show({
+          title: "Error system",
+          message: "มีบ้างอย่างผิดพลาดกรุณาติดต่อผู้พัฒนาระบบ",
+          color: "red",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const breadcrumbs: TYPEBREADCRUMBS[] = [
+    {
+      title: "Branches",
+      href: "./",
+    },
+    {
+      title: "New branch",
+      href: "",
+    },
+  ];
 
   return (
     <>
+      <SetBreadcrumbs breadcrumbs={breadcrumbs} />
       <Title c={"brand"}>Profile</Title>
       <Text>
         This information will be displayed publicly so be careful what you
@@ -185,7 +224,9 @@ function NewBranch() {
             <Divider mt={"lg"} />
             <Flex justify={"end"}>
               <Flex gap="lg" align="stretch" justify="center" direction={"row"}>
-                <UnstyledButton>Cancel</UnstyledButton>
+                <UnstyledButton onClick={() => router.back()}>
+                  Cancel
+                </UnstyledButton>
                 <Button
                   color={"brand"}
                   leftSection={<IconDeviceFloppy size={14} />}

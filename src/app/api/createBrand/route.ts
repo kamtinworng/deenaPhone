@@ -33,7 +33,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (createUser) return NextResponse.json(createUser, { status: 200 });
+    if (createUser)
+      return NextResponse.json(
+        { createUser: createUser, status: "ok" },
+        { status: 200 }
+      );
   } catch (e) {
     return NextResponse.json({ message: "error" }, { status: 500 });
   }

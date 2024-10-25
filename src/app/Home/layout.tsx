@@ -5,13 +5,14 @@ import {
   Group,
   Burger,
   Image,
-  TextInput,
   Button,
   Box,
+  Flex,
+  Text,
 } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import Mobile from "../../../libs/mobile";
 
 export default function Layout({
   children,
@@ -32,13 +33,16 @@ export default function Layout({
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Group
-            justify={width < 1000 ? "center" : "space-between"}
+        <Flex w={"100vw"} align={"center"} h="100%" px="md">
+          <Group>
+            <Image src={"./logo.jpg"} alt="logo" h={50} />
+            <Text hidden={!Mobile()}>DEENAPHONE</Text>
+          </Group>
+          <Flex
+            justify={Mobile() ? "flex-start" : "space-between"}
             style={{ flex: 1 }}
           >
             <Group ml="xl" gap={"md"} visibleFrom="md">
-              <Image src={"./logo.jpg"} alt="logo" h={50} />
               <Button variant="subtle" color="brand">
                 Home
               </Button>
@@ -55,17 +59,16 @@ export default function Layout({
             <Group
               justify="center"
               align="center"
-              w={width < 1000 ? "100%" : "auto"}
+              w={Mobile() ? "100%" : "auto"}
             >
-              <Box hidden={width > 1000}>
-                <Image src={"./logo.jpg"} alt="logo" h={50} />
-              </Box>
-              <TextInput
-                placeholder="Search"
-                radius={"md"}
-                leftSection={<IconSearch size={14} />}
-                w={width < 1000 ? "70%" : "auto"}
-              />
+              {/* <Box hidden={Mobile()}>
+                <TextInput
+                  placeholder="Search"
+                  radius={"md"}
+                  leftSection={<IconSearch size={14} />}
+                  w={width < 1000 ? "70%" : "auto"}
+                />
+              </Box> */}
               <Box hidden={width < 1000}>
                 <Button
                   color="brand"
@@ -75,9 +78,9 @@ export default function Layout({
                 </Button>
               </Box>
             </Group>
-          </Group>
+          </Flex>
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" />
-        </Group>
+        </Flex>
       </AppShell.Header>
 
       <AppShell.Navbar py="md" px={4}>

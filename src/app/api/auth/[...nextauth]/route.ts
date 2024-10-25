@@ -29,6 +29,24 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      // Add user data to the token on sign-in
+      if (user) {
+        token.id = user.id;
+        token.username = user.username;
+        token.picture = user.image;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Add token data to the session
+      session.user.id = token.id as string;
+      session.user.username = token.username as string;
+      session.user.image = token.picture as string;
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET as string,
   pages: {
     signIn: "Login",

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Button,
   Card,
   Container,
   Flex,
@@ -11,23 +10,43 @@ import {
   Text,
   Image,
   NumberFormatter,
+  Anchor,
 } from "@mantine/core";
-import { IconChevronRight } from "@tabler/icons-react";
-
+import { useFetch } from "@mantine/hooks";
+import Mobile from "../../../../../libs/mobile";
+export interface Products {
+  findProducts: {
+    id: string;
+    images: string[];
+    deviceName: string;
+    deviceDetail: string;
+    indentifier: string;
+    price: number; // ราคาเต็ม
+    deposit: number; // เงินดาวน์
+    numberOfInstallments: string; // จำนวนงวด
+    icloud: string | null;
+    passwordIcloud: string | null;
+    lockscreen: string;
+    idLoad: string;
+    status: "ForSale" | "SoldOut";
+    passwordIdLoad: string;
+    branch: { name: string };
+  }[];
+  countFindInstallmentPayments: number;
+}
 function Products() {
-  const mockData = [
-    { image: "/phone1.jpg", type: "news" },
-    { image: "/phone2.jpg", type: "promotion" },
-    { image: "/phone3.jpg", type: "news" },
-    { image: "/phone4.jpg", type: "promotion" },
-  ];
+  const { data: products } = useFetch<Products>(
+    `${
+      process.env.NEXT_PUBLIC_NEXT_API as string
+    }/getProducts?search=${""}&page=${1}&limit=${4}`
+  );
 
-  const cardNewsORPromotions = mockData.map((data, index) => {
+  const cardNewsORPromotions = products?.findProducts.map((data, index) => {
     return (
       <Card mt={"lg"} padding="lg" key={index}>
         <Card.Section>
           <Image
-            src={data.image}
+            src={data.images[0]}
             radius={"md"}
             height={400}
             width={150}
@@ -36,12 +55,12 @@ function Products() {
         </Card.Section>
 
         <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>Iphone16</Text>
-          <NumberFormatter prefix="฿ " value={1000000} thousandSeparator />
+          <Text fw={500}>{data.deviceName}</Text>
+          <NumberFormatter prefix="฿ " value={data.price} thousandSeparator />
         </Group>
 
         <Text size="sm" c="dimmed">
-          Black
+          {data.deviceDetail}
         </Text>
       </Card>
     );
@@ -49,22 +68,23 @@ function Products() {
 
   return (
     <Container fluid bg={"white"} h={"100%"} w={"100vw"}>
-      <Flex justify={"space-between"} mt={"lg"}>
-        <Title order={2} c={"brand"}>
+      <Flex
+        justify={Mobile() ? "flex-start" : "space-between"}
+        direction={Mobile() ? "column" : "row"}
+        mt={"lg"}
+        align={Mobile() ? "start" : "center"}
+      >
+        <Title mt={"sm"} order={Mobile() ? 4 : 2} c={"brand"}>
           Products / ผลิตภัณฑ์
         </Title>
-        <Button
-          component="a"
-          td="underline"
-          c={"brand"}
-          variant="transparent"
-          rightSection={<IconChevronRight size={14} />}
-        >
-          view all products
-        </Button>
+        <Anchor c={"brand"}>{`view all products >`}</Anchor>
       </Flex>
 
-      <SimpleGrid cols={4} spacing="xl" verticalSpacing="xl">
+      <SimpleGrid
+        cols={{ lg: 4, sm: 3, xs: 1 }}
+        spacing="xl"
+        verticalSpacing="xl"
+      >
         {cardNewsORPromotions}
       </SimpleGrid>
     </Container>
