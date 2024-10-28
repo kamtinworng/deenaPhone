@@ -6,7 +6,7 @@ COPY package*.json .
 
 COPY . /src/app/
 
-RUN npm ci
+RUN npm ci --forch
 
 
 RUN npx next build
