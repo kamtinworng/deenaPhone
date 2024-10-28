@@ -4,9 +4,9 @@ WORKDIR /src/app
 
 COPY package*.json . 
 
-COPY . ./
+COPY . /src/app/
 
-CMD ["npm ci"]
+RUN npm ci
 
 
 RUN npx next build
