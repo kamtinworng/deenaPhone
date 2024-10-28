@@ -5,6 +5,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/",
+        destination: "/Home",
+        permanent: true, // Set to false for temporary redirect
+      },
+      {
         source: "/Home",
         destination: "/api/auth/Login",
         permanent: true, // Set to false for temporary redirect
