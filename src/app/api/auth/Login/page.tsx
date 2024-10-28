@@ -11,8 +11,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function Page() {
+  const router = useRouter();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -33,14 +36,18 @@ function Page() {
           Welcome back to Deena Phone System!
         </Title>
         <form
-          onSubmit={form.onSubmit((values) =>
-            signIn("credentials", {
+          onSubmit={form.onSubmit(async (values) => {
+            const response = await signIn("credentials", {
               username: values.username,
               password: values.password,
-              redirect: true,
-              callbackUrl: "/CMS",
-            })
-          )}
+              redirect: false,
+            });
+            if (response?.ok) {
+              router.push("/CMS");
+            } else {
+              // Handle sign-in error here
+            }
+          })}
         >
           <TextInput
             label="Username"
