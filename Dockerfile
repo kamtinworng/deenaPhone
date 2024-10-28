@@ -3,13 +3,14 @@ FROM node:22
 WORKDIR /src/app
 
 COPY package*.json . 
-RUN npm ci --force
 
-COPY . /src/app/
+COPY . ./
 
-RUN npx prisma generate
+CMD ["npm ci"]
+
 
 RUN npx next build
+
 
 EXPOSE 3000
 
