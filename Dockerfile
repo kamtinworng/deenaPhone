@@ -6,11 +6,9 @@ COPY package*.json .
 
 COPY . /src/app/
 
-RUN npm ci --forch
-
+RUN npm ci --force
 
 RUN npx next build
-
 
 EXPOSE 3000
 
