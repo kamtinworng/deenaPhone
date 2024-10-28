@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "มีบ้างอย่างผิดพลาด" });
 
     const dueDates = findInstallmentPayment.dueDates.filter(
-      (f) => f.paymentStatus !== "paid"
+      (f: { paymentStatus: "pending" | "paid" | "overdue" }) =>
+        f.paymentStatus !== "paid"
     );
 
     const newImage = [];
