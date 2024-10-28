@@ -42,10 +42,9 @@ function Page() {
               password: values.password,
               redirect: false,
             });
+
             if (response?.ok) {
-              router.push("/CMS");
-            } else {
-              // Handle sign-in error here
+              router.push("../../CMS");
             }
           })}
         >

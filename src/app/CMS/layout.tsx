@@ -45,7 +45,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { signOut, useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ForwardRefExoticComponent,
   RefAttributes,
@@ -56,6 +56,7 @@ import classes from "./HeaderTabs.module.css";
 import cx from "clsx";
 
 export default function CMSLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const pathname = usePathname();
   const path = pathname.split("/")[2];
 
@@ -384,12 +385,14 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
             variant={"light"}
             className={classes.navlink}
             c={"white"}
-            onClick={() =>
-              signOut({
-                redirect: true,
-                callbackUrl: "/",
-              })
-            }
+            onClick={async () => {
+              const t = await signOut({
+                redirect: false,
+              });
+              if (t.url) {
+                router.push("/");
+              }
+            }}
             leftSection={
               <ThemeIcon color="red" variant="filled" radius="xs">
                 <IconLogout size="1rem" stroke={1.5} />
