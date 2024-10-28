@@ -1,14 +1,20 @@
+FROM node:22 AS builder
+
+WORKDIR /src/app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npx next build
+
 FROM node:22
 
 WORKDIR /src/app
 
-COPY package*.json . 
-
-COPY . /src/app/
-
-RUN npm ci --force
-
-RUN npx next build
+COPY --from=builder /src/app/ ./
 
 EXPOSE 3000
 
