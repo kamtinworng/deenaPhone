@@ -25,6 +25,8 @@ import { IconFile } from "@tabler/icons-react";
 import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 export interface TYPECUSTOMER {
   customerName: string;
@@ -53,6 +55,10 @@ function SellProduct({ params }: { params: { productId: string } }) {
   const { data: product } = useFetch<Product>(
     `${process.env.NEXT_PUBLIC_NEXT_API}/getProduct?productId=${params.productId}`
   );
+
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const session = useSession();
 
@@ -180,8 +186,17 @@ function SellProduct({ params }: { params: { productId: string } }) {
         body: raw,
       }
     )
-      .then((response) => response.text())
-      .catch((error) => console.error(error));
+      .then((res) => res.json())
+      .then((value: { message: string; id: string | null }) => {
+        if (value.id) {
+          router.push(`../InstallmentPayments/${value.id}`);
+        } else {
+          notifications.show({
+            message: value.message,
+            color: "red",
+          });
+        }
+      });
   };
 
   return (
@@ -248,11 +263,12 @@ function SellProduct({ params }: { params: { productId: string } }) {
       <Paper shadow="xs" radius="md" p={"lg"} mt={"lg"}>
         <Group mt={"md"} gap="md" grow>
           <form
-            onSubmit={form.onSubmit((values) =>
+            onSubmit={form.onSubmit((values) => {
+              setLoading(true);
               onSubmit({
                 form: values,
-              })
-            )}
+              });
+            })}
           >
             <Stack gap="md" align="stretch" justify="center">
               <Title order={3}>Information customer</Title>
@@ -391,7 +407,7 @@ function SellProduct({ params }: { params: { productId: string } }) {
                 {dueDate}
               </SimpleGrid>
             </Stack>
-            <Button mt={"xl"} fullWidth type="submit">
+            <Button mt={"xl"} fullWidth type="submit" loading={loading}>
               ยืนยันการผ่อนชำระสินค้า
             </Button>
           </form>

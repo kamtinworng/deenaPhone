@@ -19,6 +19,8 @@ import { TYPE_BRANDS } from "../../Branches/page";
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconUpload, IconX, IconPhoto } from "@tabler/icons-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 interface INPUTPRODUCT {
   brandCode: string;
@@ -41,8 +43,11 @@ function CreateProduct() {
     `${process.env.NEXT_PUBLIC_NEXT_API}/getBrands`
   );
 
+  const [loading, setLoading] = useState(false);
+
   const [files, setFiles] = useState<FileWithPath[]>([]);
 
+  const router = useRouter();
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
@@ -72,11 +77,16 @@ function CreateProduct() {
       imei: "",
     },
     validate: {
-      brandCode: (value) => (!value ? "กรุณาเลือกสาขาที่สินค้าอยู่" : null),
-      productName: (value) => (!value ? "กรุณากรอกชื่อสินค้า" : null),
+      brandCode: (value) =>
+        value === "" ? "กรุณาเลือกสาขาที่สินค้าอยู่" : null,
+      productName: (value) => (value === "" ? "กรุณากรอกชื่อสินค้า" : null),
       deviceDetail: (value) =>
         !value ? "กรุณากรอกรายละเอียดสินค้าสินค้า" : null,
       price: (value) => (value < 1 ? "กรุณาใส่ราคาสินค้า" : null),
+      numberOfInstallments: (value) =>
+        value < 1 ? "กรุณาใส่จำนวนงวดผ่อน" : null,
+      installmentAmount: (value) =>
+        value < 1 ? "กรุณาใส่จำนวนเงินต่อครั้งที่ผ่อนชำระ" : null,
       imei: (value) => (!value ? "กรุณากรอกเลขอีมี่" : null),
     },
   });
@@ -125,17 +135,32 @@ function CreateProduct() {
       images: base64,
     });
 
-    fetch(`${process.env.NEXT_PUBLIC_NEXT_API as string}/createProduct`, {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-    })
-      .then((response) => response.text())
-      .catch((error) => console.error(error));
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_NEXT_API as string}/createProduct`,
+      {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+      }
+    );
+
+    if (result.ok) {
+      router.back();
+    } else {
+      notifications.show({
+        message: "error",
+        color: "red",
+      });
+    }
   };
   return (
     <>
-      <form onSubmit={form.onSubmit((value) => createProduct(value))}>
+      <form
+        onSubmit={form.onSubmit((value) => {
+          setLoading(true);
+          createProduct(value);
+        })}
+      >
         <Paper shadow="xs" radius="lg" p={"xl"}>
           <Stack gap="lg" align="stretch" justify="center">
             <SimpleGrid cols={2} spacing="md" verticalSpacing="md">
@@ -149,24 +174,24 @@ function CreateProduct() {
                 })}
                 label="สาขา"
                 radius={"md"}
-                key={form.key("typeBlog")}
-                {...form.getInputProps("typeBlog")}
+                key={form.key("brandCode")}
+                {...form.getInputProps("brandCode")}
               />
 
               <TextInput
                 size="md"
                 label="ชื่อสินค้า"
                 radius={"md"}
-                key={form.key("blogTitle")}
-                {...form.getInputProps("blogTitle")}
+                key={form.key("productName")}
+                {...form.getInputProps("productName")}
               />
 
               <TextInput
                 size="md"
                 label="รายละเอียดสินค้า"
                 radius={"md"}
-                key={form.key("blogDetail")}
-                {...form.getInputProps("blogDetail")}
+                key={form.key("deviceDetail")}
+                {...form.getInputProps("deviceDetail")}
               />
 
               <NumberInput
@@ -259,7 +284,6 @@ function CreateProduct() {
           อัพโหลดภาพ
           <Dropzone
             onDrop={setFiles}
-            onReject={(files) => console.log("rejected files", files)}
             maxSize={5 * 1024 ** 2}
             accept={IMAGE_MIME_TYPE}
           >
@@ -320,7 +344,9 @@ function CreateProduct() {
         </Paper>
 
         <Flex gap="md" justify="end" align="end" mt={"lg"}>
-          <Button type="submit">ยืนยันเพิ่มสินค้า</Button>
+          <Button type="submit" loading={loading}>
+            ยืนยันเพิ่มสินค้า
+          </Button>
         </Flex>
       </form>
     </>

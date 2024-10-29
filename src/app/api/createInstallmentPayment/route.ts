@@ -73,11 +73,12 @@ export async function POST(req: NextRequest) {
     });
 
     const silpCode = !lastCode ? 0 : lastCode?.code.split("deena");
+
     const newCode = !lastCode
       ? "deena1"
       : !silpCode
-      ? ""
-      : silpCode[0].concat(silpCode[1] + 1);
+      ? "deena1"
+      : "deena".concat((parseInt(silpCode[1] as string) + 1).toString());
 
     const createInstallmentPayment =
       await prismaClient.installmentPayments.create({
@@ -124,7 +125,10 @@ export async function POST(req: NextRequest) {
         },
       });
       return NextResponse.json(
-        { message: "ดำเนินการเพิ่มลงระบบสำเร็จ" },
+        {
+          message: "ดำเนินการเพิ่มลงระบบสำเร็จ",
+          id: createInstallmentPayment.id,
+        },
         { status: 200 }
       );
     } else {

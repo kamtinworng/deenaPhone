@@ -1,14 +1,25 @@
 {
   "pages": {
-    "/api/auth/Login/page": [
+    "/CMS/Files/createProduct/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/auth/Login/page.js"
+      "static/chunks/app/CMS/Files/createProduct/page.js"
     ],
-    "/api/auth/Login/loading": [
+    "/CMS/Files/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/auth/Login/loading.js"
+      "static/chunks/app/CMS/Files/loading.js"
+    ],
+    "/CMS/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/CMS/layout.css",
+      "static/chunks/app/CMS/layout.js"
+    ],
+    "/CMS/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/loading.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -20,6 +31,31 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/loading.js"
+    ],
+    "/CMS/SellSystem/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/SellSystem/page.js"
+    ],
+    "/CMS/SellSystem/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/SellSystem/loading.js"
+    ],
+    "/CMS/InstallmentPayments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/InstallmentPayments/page.js"
+    ],
+    "/CMS/InstallmentPayments/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/InstallmentPayments/loading.js"
+    ],
+    "/CMS/Files/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Files/page.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
@@ -37,21 +73,51 @@
       "static/chunks/main-app.js",
       "static/chunks/app/Home/layout.js"
     ],
+    "/api/auth/Login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/Login/page.js"
+    ],
+    "/api/auth/Login/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/Login/loading.js"
+    ],
     "/CMS/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/CMS/page.js"
     ],
-    "/CMS/layout": [
+    "/CMS/SellSystem/[productId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/CMS/layout.css",
-      "static/chunks/app/CMS/layout.js"
+      "static/chunks/app/CMS/SellSystem/[productId]/page.js"
     ],
-    "/CMS/loading": [
+    "/CMS/SellSystem/[productId]/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/CMS/loading.js"
+      "static/chunks/app/CMS/SellSystem/[productId]/loading.js"
+    ],
+    "/CMS/InstallmentPayments/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/CMS/InstallmentPayments/[id]/page.css",
+      "static/chunks/app/CMS/InstallmentPayments/[id]/page.js"
+    ],
+    "/CMS/blog/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/blog/page.js"
+    ],
+    "/CMS/blog/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/blog/loading.js"
+    ],
+    "/CMS/blog/createNews/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/blog/createNews/page.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",

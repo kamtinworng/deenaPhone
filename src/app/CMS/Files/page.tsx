@@ -79,25 +79,27 @@ function Files() {
             เพิ่มสินค้าใหม่
           </Button>
         </Flex>
-        <Table stickyHeader stickyHeaderOffset={60} mt={"lg"}>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>id</Table.Th>
-              <Table.Th>deviceName</Table.Th>
-              <Table.Th>indentifier</Table.Th>
-              <Table.Th>images</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-          <Table.Caption>
-            <Center>
-              <Pagination
-                onChange={(e) => setPage(e)}
-                total={products?.countFindInstallmentPayments ?? 0}
-              />
-            </Center>
-          </Table.Caption>
-        </Table>
+        <Table.ScrollContainer minWidth={100}>
+          <Table mt={"lg"}>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>id</Table.Th>
+                <Table.Th>deviceName</Table.Th>
+                <Table.Th>indentifier</Table.Th>
+                <Table.Th>images</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Caption>
+              <Center>
+                <Pagination
+                  onChange={(e) => setPage(e)}
+                  total={products?.countFindInstallmentPayments ?? 0}
+                />
+              </Center>
+            </Table.Caption>
+          </Table>
+        </Table.ScrollContainer>
       </Paper>
     </>
   );

@@ -21,8 +21,9 @@ const handler = NextAuth({
 
         if (user.status === "ok") {
           return user;
+        } else {
+          return null;
         }
-        return null;
       },
     }),
   ],
@@ -50,6 +51,7 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET as string,
   pages: {
     signIn: "Login",
+    error: "Login",
   },
   adapter: PrismaAdapter(prismaClient),
 });

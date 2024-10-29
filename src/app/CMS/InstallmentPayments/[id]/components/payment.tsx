@@ -104,8 +104,6 @@ function Payment(props: {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    console.log(session);
-
     const raw = JSON.stringify({
       idInstallmentPayments: props.installmentPayment?.id,
       receiptImages: dataPayment,

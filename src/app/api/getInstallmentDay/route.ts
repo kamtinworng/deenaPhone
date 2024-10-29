@@ -38,8 +38,6 @@ export async function GET() {
         message: "ไม่มีรายการที่ต้องจ่าย",
       });
 
-    console.log(findInstallmentPayment);
-
     return NextResponse.json({
       status: 200,
       findInstallmentPayment: findInstallmentPayment,

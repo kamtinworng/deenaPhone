@@ -31,6 +31,7 @@ import { notifications } from "@mantine/notifications";
 
 function NewBranch() {
   const [files, setFiles] = useState<FileWithPath[]>([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm({
@@ -93,7 +94,6 @@ function NewBranch() {
         profileImage: file,
       });
 
-      // Await the fetch call
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_NEXT_API as string}/createBrand`,
         {
@@ -108,6 +108,7 @@ function NewBranch() {
       if (result.status === "ok") {
         router.push(`./${result.createUser.code}`);
       } else {
+        setLoading(false);
         notifications.show({
           title: "Error system",
           message: "มีบ้างอย่างผิดพลาดกรุณาติดต่อผู้พัฒนาระบบ",
@@ -140,9 +141,10 @@ function NewBranch() {
       </Text>
       <Paper shadow="xs" radius="lg" withBorder p={"lg"} mt={"md"}>
         <form
-          onSubmit={form.onSubmit((values) =>
-            createBranch(values.code, values.name)
-          )}
+          onSubmit={form.onSubmit((values) => {
+            setLoading(true);
+            createBranch(values.code, values.name);
+          })}
         >
           <Stack gap="md" align="stretch" justify="center">
             <TextInput
@@ -167,7 +169,6 @@ function NewBranch() {
             ) : (
               <Dropzone
                 onDrop={setFiles}
-                onReject={(files) => console.log("rejected files", files)}
                 maxSize={5 * 1024 ** 2}
                 accept={IMAGE_MIME_TYPE}
               >
@@ -231,6 +232,7 @@ function NewBranch() {
                   color={"brand"}
                   leftSection={<IconDeviceFloppy size={14} />}
                   type="submit"
+                  loading={loading}
                 >
                   Save
                 </Button>

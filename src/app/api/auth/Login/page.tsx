@@ -8,11 +8,18 @@ import {
   Flex,
   Image,
   Box,
+  Alert,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconError404 } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function Page() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -32,14 +39,31 @@ function Page() {
         <Title order={2} ta="center" mt="md" mb={50}>
           Welcome back to Deena Phone System!
         </Title>
+        <Alert
+          variant="light"
+          color="red"
+          title="ไม่พบผู้ใช้งาน"
+          icon={<IconError404 size={14} />}
+          my={"md"}
+          hidden={!error}
+        >
+          กรุณาตรวจสอบ username หรือ password
+        </Alert>
         <form
-          onSubmit={form.onSubmit((values) => {
-            signIn("credentials", {
+          onSubmit={form.onSubmit(async (values) => {
+            setLoading(!loading);
+            const res = await signIn("credentials", {
               username: values.username,
               password: values.password,
-              redirect: true,
-              callbackUrl: "/CMS",
+              redirect: false,
             });
+
+            if (res?.error) {
+              setLoading(false);
+              setError(true);
+            } else {
+              router.push("/CMS");
+            }
           })}
         >
           <TextInput
@@ -57,7 +81,14 @@ function Page() {
             key={form.key("password")}
             {...form.getInputProps("password")}
           />
-          <Button type="submit" fullWidth mt="xl" size="md" color="brand">
+          <Button
+            type="submit"
+            fullWidth
+            mt="xl"
+            size="md"
+            color="brand"
+            loading={loading}
+          >
             Login
           </Button>
         </form>

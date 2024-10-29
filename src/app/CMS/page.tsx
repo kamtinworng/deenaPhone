@@ -54,8 +54,6 @@ function CMS() {
         ))
       : "";
 
-  console.log(installmentPayment);
-
   return (
     <>
       <Paper p={"md"} shadow="xs" radius="xs">

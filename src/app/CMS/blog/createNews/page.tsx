@@ -167,7 +167,6 @@ function CreateProduct() {
           อัพโหลดภาพ
           <Dropzone
             onDrop={setFiles}
-            onReject={(files) => console.log("rejected files", files)}
             maxSize={5 * 1024 ** 2}
             accept={IMAGE_MIME_TYPE}
           >

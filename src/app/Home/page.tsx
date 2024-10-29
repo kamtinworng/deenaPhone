@@ -40,7 +40,6 @@ function Page() {
 
     const result = await response.json();
 
-    console.log(result);
     if (result.status === 200) {
       router.push(`./Home/${code}`);
     } else {
