@@ -1,16 +1,5 @@
 {
   "pages": {
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
-    "/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/loading.js"
-    ],
     "/api/auth/Login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,21 +10,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/auth/Login/loading.js"
     ],
-    "/CMS/page": [
+    "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/CMS/page.js"
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
-    "/CMS/layout": [
+    "/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/CMS/layout.css",
-      "static/chunks/app/CMS/layout.js"
-    ],
-    "/CMS/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/CMS/loading.js"
+      "static/chunks/app/loading.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
@@ -52,6 +36,22 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/Home/layout.js"
+    ],
+    "/CMS/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/page.js"
+    ],
+    "/CMS/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/CMS/layout.css",
+      "static/chunks/app/CMS/layout.js"
+    ],
+    "/CMS/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/loading.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
