@@ -3,6 +3,7 @@ import prismaClient from "../../../../libs/prisma";
 
 export async function GET(req: NextRequest) {
   const search = req.nextUrl.searchParams.get("search");
+  const branchCode = req.nextUrl.searchParams.get("branchCode");
   const page = req.nextUrl.searchParams.get("page");
   const limit = req.nextUrl.searchParams.get("limit");
   const TAKE = !limit ? 10 : parseInt(limit);
@@ -16,9 +17,17 @@ export async function GET(req: NextRequest) {
         deviceName: {
           contains: !search ? undefined : search,
         },
+        branch: {
+          code: {
+            equals: !branchCode ? undefined : branchCode,
+          },
+        },
       },
       skip: !page ? 0 : parseInt(page) === 1 ? 0 : parseInt(page) + 1 * TAKE,
       take: TAKE,
+      orderBy: {
+        createAt: "desc",
+      },
     });
 
     const countFindProducts = await prismaClient.products.count({

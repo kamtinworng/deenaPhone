@@ -16,6 +16,10 @@ export interface TYPEINSTALLMENTPAYMENT {
   houseRegistrationImage: string;
   customerReceivingImage: string;
   over: number;
+  recipientId: string;
+  timeCode: string;
+  screenId: string;
+  icloudPhoneNumber: string;
   product: {
     id: string;
     images: string[];

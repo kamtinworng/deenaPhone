@@ -24,7 +24,7 @@ function SellSystem() {
   const [branch, setBranch] = useState<string | null>("");
 
   const { data } = useFetch<Products>(
-    `${process.env.NEXT_PUBLIC_NEXT_API}/getProducts?search=${search}`
+    `${process.env.NEXT_PUBLIC_NEXT_API}/getProducts?search=${search}&branchCode=${branch}`
   );
 
   const { data: getBranch } = useFetch<

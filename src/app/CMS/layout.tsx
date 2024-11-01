@@ -23,11 +23,10 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   Icon,
   IconBlockquote,
-  // IconArrowLeft,
+  // IconBrandFacebook,
   IconBuildingStore,
   IconChevronDown,
   IconChevronRight,
-  // IconDashboard,
   IconDeviceMobile,
   IconFolder,
   IconHeart,
@@ -90,6 +89,12 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
       link: "/CMS/blog",
       code: "blog",
     },
+    // {
+    //   icon: IconBrandFacebook,
+    //   label: "PSID",
+    //   link: "/CMS/PSID",
+    //   code: "PSID",
+    // },
   ];
 
   const { setColorScheme } = useMantineColorScheme();

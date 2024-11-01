@@ -32,6 +32,10 @@ export interface TYPECUSTOMER {
   customerName: string;
   facebookLink: string;
   tel: string;
+  recipientId: string;
+  screenId: string;
+  timeCode: string;
+  icloudPhoneNumber: string;
 }
 
 interface Product {
@@ -112,12 +116,17 @@ function SellProduct({ params }: { params: { productId: string } }) {
     initialValues: {
       customerName: "",
       facebookLink: "",
+      recipientId: "",
       tel: "",
+      screenId: "",
+      timeCode: "",
+      icloudPhoneNumber: "",
     },
     validate: {
       customerName: (value) => (value === "" ? "กรุณากรอกชื่อลูกค้า" : null),
       facebookLink: (value) =>
         value === "" ? "กรุณากรอก LINK หรือ ชื่อ Facebook ของลูกค้า" : null,
+      recipientId: (value) => (value === "" ? "กรุณากรอก PSID" : null),
       tel: (value) =>
         value.length < 1 || value.length < 10
           ? "กรุณากรอกเบอร์โทรศัพท์ของลูกค้า 10 หลัก"
@@ -168,6 +177,10 @@ function SellProduct({ params }: { params: { productId: string } }) {
       facebookLink: customer.facebookLink,
       tel: customer.tel,
       dueDate: value,
+      recipientId: customer.recipientId,
+      screenId: customer.screenId,
+      timeCode: customer.timeCode,
+      icloudPhoneNumber: customer.icloudPhoneNumber,
       downPaymentChoice: downPaymentChoice,
       paymentAgreementFile: paymentAgreementFileBase64,
       deviceImeiImageFile: deviceImeiImageFileBase64,
@@ -288,6 +301,34 @@ function SellProduct({ params }: { params: { productId: string } }) {
                   withAsterisk
                 />
                 <TextInput
+                  label="PSID"
+                  size="md"
+                  key={form.key("recipientId")}
+                  {...form.getInputProps("recipientId")}
+                  withAsterisk
+                />
+                <TextInput
+                  label="รหัสเวลา"
+                  size="md"
+                  key={form.key("timeCode")}
+                  {...form.getInputProps("timeCode")}
+                  withAsterisk
+                />
+                <TextInput
+                  label="รหัสหน้าจอ"
+                  size="md"
+                  key={form.key("screenId")}
+                  {...form.getInputProps("screenId")}
+                  withAsterisk
+                />
+                <TextInput
+                  label="เบอร์สมัครไอคราว"
+                  size="md"
+                  key={form.key("icloudPhoneNumber")}
+                  {...form.getInputProps("icloudPhoneNumber")}
+                  withAsterisk
+                />
+                <TextInput
                   label="เบอร์โทรสำหรับติดต่อ"
                   size="md"
                   key={form.key("tel")}
@@ -362,8 +403,8 @@ function SellProduct({ params }: { params: { productId: string } }) {
                     stroke={1.5}
                   />
                 }
-                label="รูปทะเบียนบ้าน"
-                placeholder="รูปทะเบียนบ้าน"
+                label="รูปหน้า Facebook"
+                placeholder="รูปหน้า Facebook"
                 leftSectionPointerEvents="none"
                 size="md"
                 withAsterisk

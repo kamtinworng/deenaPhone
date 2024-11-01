@@ -107,13 +107,17 @@ model installmentPayments {
 
   customerName      String
   facebookLink      String
+  recipientId       String //PSID facebook
   tel               String
+  timeCode          String
+  screenId          String
+  icloudPhoneNumber String
   downPaymentChoice choice
 
   paymentAgreementFile   String
   deviceImeiImageFile    String
   idCardImage            String
-  houseRegistrationImage String
+  houseRegistrationImage String // เป็นหน้าเฟสบุ๊กแทน
   customerReceivingImage String
 
   statusInstallmentPayment statusInstallmentPayment @default(inProgress)

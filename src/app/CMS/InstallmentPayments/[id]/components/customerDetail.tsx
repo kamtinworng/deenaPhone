@@ -38,7 +38,7 @@ function CustomerDetail(props: {
       image: installmentPayment.idCardImage,
     },
     {
-      title: "รูปทะเบียนบ้าน",
+      title: "รูปหน้า Facebook",
       image: installmentPayment.houseRegistrationImage,
     },
   ];

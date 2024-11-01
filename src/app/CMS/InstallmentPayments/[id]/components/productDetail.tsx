@@ -154,6 +154,34 @@ function ProductDetail(props: {
               placeholder="Input placeholder"
             />
           </Box>
+          <Box hidden={props.customer}>
+            <TextInput
+              label="PSID"
+              value={installmentPayment?.recipientId ?? ""}
+              placeholder="Input placeholder"
+            />
+          </Box>
+          <Box hidden={props.customer}>
+            <TextInput
+              label="รหัสเวลา"
+              value={installmentPayment?.timeCode ?? ""}
+              placeholder="Input placeholder"
+            />
+          </Box>
+          <Box hidden={props.customer}>
+            <TextInput
+              label="รหัสหน้าจอ"
+              value={installmentPayment?.screenId ?? ""}
+              placeholder="Input placeholder"
+            />
+          </Box>
+          <Box hidden={props.customer}>
+            <TextInput
+              label="เบอร์โทรศัพท์ที่สมัคร iCloud"
+              value={installmentPayment?.icloudPhoneNumber ?? ""}
+              placeholder="Input placeholder"
+            />
+          </Box>
         </SimpleGrid>
       </Paper>
     </SimpleGrid>

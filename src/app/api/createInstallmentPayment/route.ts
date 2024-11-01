@@ -11,6 +11,10 @@ export interface TYPEINPUT {
   facebookLink: string;
   tel: string;
   dueDate: Date;
+  recipientId: string;
+  screenId: string;
+  timeCode: string;
+  icloudPhoneNumber: string;
   downPaymentChoice: "cashPayment" | "bankTransferPayment";
   paymentAgreementFile: string;
   deviceImeiImageFile: string;
@@ -94,6 +98,10 @@ export async function POST(req: NextRequest) {
           paidInstallments: 0,
           paymentAgreementFile: paymentAgreementFileS3,
           remainingAmount: product.price,
+          recipientId: data.recipientId,
+          icloudPhoneNumber: data.icloudPhoneNumber,
+          screenId: data.screenId,
+          timeCode: data.timeCode,
           tel: data.tel,
           productsId: product.id,
           over: 0,
