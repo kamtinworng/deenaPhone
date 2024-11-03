@@ -1,12 +1,5 @@
 {
-  "/api/auth/Login/page": "app/api/auth/Login/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/getInstallmentPaymentByCode/route": "app/api/getInstallmentPaymentByCode/route.js",
   "/api/webhook/route": "app/api/webhook/route.js",
-  "/api/updateInstallmentOverdue/route": "app/api/updateInstallmentOverdue/route.js",
-  "/api/updateInstallmentPayment/route": "app/api/updateInstallmentPayment/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/Home/page": "app/Home/page.js",
-  "/CMS/page": "app/CMS/page.js",
-  "/Home/[code]/page": "app/Home/[code]/page.js"
+  "/CMS/Branches/newBranch/page": "app/CMS/Branches/newBranch/page.js",
+  "/CMS/Branches/[code]/page": "app/CMS/Branches/[code]/page.js"
 }

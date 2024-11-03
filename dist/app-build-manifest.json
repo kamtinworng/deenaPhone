@@ -1,5 +1,10 @@
 {
   "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -10,11 +15,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/loading.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
     ],
     "/Home/page": [
       "static/chunks/webpack.js",
@@ -53,21 +53,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/CMS/loading.js"
     ],
-    "/Home/[code]/page": [
+    "/CMS/Branches/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/Home/[code]/page.css",
-      "static/chunks/app/Home/[code]/page.js"
+      "static/chunks/app/CMS/Branches/page.js"
     ],
-    "/Home/[code]/loading": [
+    "/CMS/Branches/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Home/[code]/loading.js"
+      "static/chunks/app/CMS/Branches/loading.js"
     ],
-    "/_not-found/page": [
+    "/CMS/Branches/newBranch/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/CMS/Branches/newBranch/page.js"
+    ],
+    "/CMS/Branches/newBranch/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/newBranch/loading.js"
+    ],
+    "/CMS/Branches/[code]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/[code]/page.js"
+    ],
+    "/CMS/Branches/[code]/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/[code]/loading.js"
     ]
   }
 }

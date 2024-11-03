@@ -40,6 +40,8 @@ function NewBranch() {
       code: "",
       name: "",
       profileImage: "",
+      pageAccessToken: "",
+      verifyToken: "",
     },
     validate: {
       code: isNotEmpty(),
@@ -60,7 +62,12 @@ function NewBranch() {
     );
   });
 
-  const createBranch = async (code: string, name: string) => {
+  const createBranch = async (
+    code: string,
+    name: string,
+    pageAccessToken: string | null,
+    verifyToken: string | null
+  ) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -91,6 +98,8 @@ function NewBranch() {
       const raw = JSON.stringify({
         code: code,
         name: name,
+        pageAccessToken: pageAccessToken,
+        verifyToken: verifyToken,
         profileImage: file,
       });
 
@@ -143,7 +152,12 @@ function NewBranch() {
         <form
           onSubmit={form.onSubmit((values) => {
             setLoading(true);
-            createBranch(values.code, values.name);
+            createBranch(
+              values.code,
+              values.name,
+              values.pageAccessToken,
+              values.verifyToken
+            );
           })}
         >
           <Stack gap="md" align="stretch" justify="center">
@@ -162,6 +176,22 @@ function NewBranch() {
               key={form.key("name")}
               {...form.getInputProps("name")}
               withAsterisk
+            />
+
+            <TextInput
+              label="Verify Token"
+              description="รหัสสำหรับยืนยัน page facebook"
+              placeholder="ใส่หรือไม่ใส่ก็ได้"
+              key={form.key("verifyToken")}
+              {...form.getInputProps("verifyToken")}
+            />
+
+            <TextInput
+              label="Page Access Token"
+              description="ต้องสร้าง Token จาก developers.facebook.com"
+              placeholder="ใส่หรือไม่ใส่ก็ได้"
+              key={form.key("pageAccessToken")}
+              {...form.getInputProps("pageAccessToken")}
             />
             <Text>รูปภาพสาขา</Text>
             {files.length > 0 ? (

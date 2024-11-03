@@ -6,6 +6,8 @@ import { s3 } from "../../../../libs/S3";
 export interface TYPEREGISTER {
   code: string;
   name: string;
+  pageAccessToken: string | null;
+  verifyToken: string | null;
   profileImage: string;
 }
 
@@ -29,6 +31,8 @@ export async function POST(req: NextRequest) {
       data: {
         code: data.code,
         name: data.name,
+        pageAccessToken: data.pageAccessToken,
+        verifyToken: data.verifyToken,
         profileImage: url,
       },
     });

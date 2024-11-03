@@ -46,6 +46,9 @@ model Branch {
   code String @unique
   name String
 
+  verifyToken     String?
+  pageAccessToken String?
+
   profileImage String?
 
   createdAt DateTime @default(now())

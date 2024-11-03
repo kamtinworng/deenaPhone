@@ -22,6 +22,15 @@ export async function GET() {
           select: {
             recipientId: true,
             code: true,
+            product: {
+              select: {
+                branch: {
+                  select: {
+                    pageAccessToken: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -43,7 +52,7 @@ export async function GET() {
             id: payment.id,
           },
         });
-        const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+        // const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
         const text = `ขอเรียนให้ทราบว่า ขณะนี้ท่านได้เกินกำหนดวันชำระเงินค่างวดสำหรับสินค้าที่ท่านได้ผ่อนชำระแล้ว กรุณาดำเนินการชำระค่างวดสินค้าของท่านโดยเร็วที่สุด ท่านสามารถดำเนินการชำระเงินผ่านลิงค์นี้: ${process.env.URL}Home/${payment.installmentPayments?.code}`;
 
@@ -54,7 +63,7 @@ export async function GET() {
 
         axios
           .post(
-            `https://graph.facebook.com/v12.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+            `https://graph.facebook.com/v12.0/me/messages?access_token=${payment.installmentPayments?.product.branch.pageAccessToken}`,
             messageData
           )
           .then((response) => {
