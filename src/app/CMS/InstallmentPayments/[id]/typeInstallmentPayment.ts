@@ -12,6 +12,8 @@ export interface TYPEINSTALLMENTPAYMENT {
   statusInstallmentPayment: "inProgress" | "Hold" | "Cancel" | "Success";
   paymentAgreementFile: string;
   deviceImeiImageFile: string;
+  receiptImage: string[];
+  allIdReceiptImage: string[];
   idCardImage: string;
   houseRegistrationImage: string;
   customerReceivingImage: string;

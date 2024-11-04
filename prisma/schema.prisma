@@ -125,8 +125,10 @@ model installmentPayments {
 
   statusInstallmentPayment statusInstallmentPayment @default(inProgress)
 
-  receiptImage String[]
-  over         Int      @default(0)
+  receiptImage      String[]
+  allIdReceiptImage String[]
+
+  over Int @default(0)
 
   dueDates                   dueDates[]
   timeLineInstallmentPayment timeLineInstallmentPayment[]

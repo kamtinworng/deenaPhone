@@ -15,6 +15,8 @@ import {
   Badge,
   Button,
   Stack,
+  Image,
+  SimpleGrid,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { useDisclosure, useFetch } from "@mantine/hooks";
@@ -314,6 +316,24 @@ function Page({ params }: { params: { id: string } }) {
           <TimeLine data={installmentPayment} />
         </Grid.Col>
       </Grid>
+      <Paper shadow="xs" radius="sm" p={"md"} mt={"md"}>
+        <SimpleGrid
+          cols={{ lg: 4, md: 3, sm: 2 }}
+          spacing="md"
+          verticalSpacing="md"
+        >
+          {installmentPayment?.receiptImage.map((image, index) => {
+            return (
+              <Image
+                alt="receipt image"
+                src={image}
+                key={index}
+                radius={"md"}
+              />
+            );
+          })}
+        </SimpleGrid>
+      </Paper>
     </>
   );
 }

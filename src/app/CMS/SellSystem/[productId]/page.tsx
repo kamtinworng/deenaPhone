@@ -1,4 +1,6 @@
 "use client";
+import "dayjs/locale/th";
+
 import { useFetch } from "@mantine/hooks";
 import {
   Container,

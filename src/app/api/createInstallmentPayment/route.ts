@@ -105,6 +105,7 @@ export async function POST(req: NextRequest) {
           tel: data.tel,
           productsId: product.id,
           over: 0,
+
           dueDates: {
             create: dueDates.map((date) => {
               return {

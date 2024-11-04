@@ -52,12 +52,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="th">
       <body className={kanit.className}>
         <MantineProvider theme={theme}>
           <SessionProviderCustom>
-            <DatesProvider settings={{ locale: "th", timezone: "UTC" }}>
-              <Notifications />
+            <Notifications />
+            <DatesProvider settings={{ locale: "th" }}>
               {children}
             </DatesProvider>
           </SessionProviderCustom>

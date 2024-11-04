@@ -11,7 +11,14 @@ export async function GET(req: NextRequest) {
 
   if (mode === "subscribe" && token === process.env.VERIFY_TOKEN) {
     console.log("WEBHOOK_VERIFIED");
-    return new NextResponse(challenge, { status: 200 });
+    return new NextResponse(challenge, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
   } else {
     return NextResponse.json({ message: "Forbidden" }, { status: 403 });
   }

@@ -33,6 +33,7 @@ function Payment(props: {
     {
       base64: string;
       amount: number;
+      id: string;
     }[]
   >([]);
 
@@ -72,12 +73,21 @@ function Payment(props: {
 
           const data = await response.json();
 
+          if (
+            props.installmentPayment?.allIdReceiptImage.find((f) =>
+              f === data.data?.payload ? true : false
+            )
+          ) {
+            return;
+          }
+
           if (data.status === 200) {
             setDataPayment((prevData) => [
               ...prevData,
               {
                 base64: base64File as string,
                 amount: data.data.amount.amount,
+                id: data.data.payload,
               },
             ]);
           }
@@ -89,8 +99,8 @@ function Payment(props: {
       setDataList(results);
 
       const sumTotalAdditionalPayment = results
-        .filter((result) => result.status === 200)
-        .reduce((sum, result) => sum + result.data.amount.amount, 0);
+        .filter((result) => result?.status === 200)
+        .reduce((sum, result) => sum + result?.data.amount.amount, 0);
 
       setTotalAdditionalPayment(sumTotalAdditionalPayment);
     };
@@ -98,7 +108,7 @@ function Payment(props: {
     if (files.length > 0) {
       uploadFiles();
     }
-  }, [files]);
+  }, [files, props.installmentPayment?.allIdReceiptImage]);
 
   const payInstallmentPayments = async () => {
     const myHeaders = new Headers();
@@ -149,6 +159,10 @@ function Payment(props: {
                 {("message" in data && data.message) ||
                   "Error: Message not found"}
               </Text>
+            ) : props.installmentPayment?.allIdReceiptImage.find((f) =>
+                f === data?.data?.payload ? true : false
+              ) ? (
+              <Text c={"red"}>Error: สลิปซ้ำ!!!!</Text>
             ) : (
               data &&
               "data" in data && (

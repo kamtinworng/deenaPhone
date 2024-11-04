@@ -8,6 +8,7 @@ export interface TYPEREGISTER {
   receiptImages: {
     base64: string;
     amount: number;
+    id: string;
   }[];
   userId: string;
 }
@@ -40,6 +41,7 @@ export async function POST(req: NextRequest) {
     );
 
     const newImage = [];
+    const allId = [];
     let currentAmount = 0;
     let amountTimeline = 0;
 
@@ -52,6 +54,7 @@ export async function POST(req: NextRequest) {
       await s3.send(command);
       const url = !command ? null : createUrlS3(command.input.Key!);
       newImage.push(url);
+      allId.push(data.receiptImages[i].id);
       oldOver = 0;
     }
 
@@ -65,6 +68,9 @@ export async function POST(req: NextRequest) {
         data: {
           receiptImage: {
             push: newImage.map((image) => image ?? ""),
+          },
+          allIdReceiptImage: {
+            push: allId,
           },
           over: remainder,
           remainingAmount:
