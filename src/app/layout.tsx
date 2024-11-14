@@ -15,6 +15,7 @@ import SessionProviderCustom from "./provider/provider";
 import { Kanit } from "next/font/google";
 import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
 
 export const metadata: Metadata = {
   title: "Deena Phone",
@@ -57,9 +58,11 @@ export default function RootLayout({
         <MantineProvider theme={theme}>
           <SessionProviderCustom>
             <Notifications />
-            <DatesProvider settings={{ locale: "th" }}>
-              {children}
-            </DatesProvider>
+            <ModalsProvider>
+              <DatesProvider settings={{ locale: "th" }}>
+                {children}
+              </DatesProvider>
+            </ModalsProvider>
           </SessionProviderCustom>
         </MantineProvider>
       </body>

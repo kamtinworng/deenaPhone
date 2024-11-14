@@ -8,6 +8,9 @@ export async function GET(req: NextRequest) {
     if (!code) return NextResponse.json({ message: "มีบ้างอย่างผิดพลาด" });
 
     const findBranch = await prismaClient.branch.findFirst({
+      include: {
+        chatBot: true,
+      },
       where: {
         code: code as string,
       },

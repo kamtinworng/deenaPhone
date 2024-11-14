@@ -1,11 +1,12 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/api/auth/Login/page": "app/api/auth/Login/page.js",
+  "/api/createChatBot/route": "app/api/createChatBot/route.js",
+  "/api/getBrand/route": "app/api/getBrand/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/getInstallmentPaymentByCode/route": "app/api/getInstallmentPaymentByCode/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/CMS/InstallmentPayments/[id]/page": "app/CMS/InstallmentPayments/[id]/page.js",
-  "/CMS/page": "app/CMS/page.js",
-  "/CMS/InstallmentPayments/page": "app/CMS/InstallmentPayments/page.js",
+  "/api/webhook/route": "app/api/webhook/route.js",
+  "/api/editChatBot/route": "app/api/editChatBot/route.js",
+  "/CMS/Branches/page": "app/CMS/Branches/page.js",
+  "/CMS/Branches/[code]/page": "app/CMS/Branches/[code]/page.js",
+  "/Home/page": "app/Home/page.js",
   "/Home/[code]/page": "app/Home/[code]/page.js"
 }

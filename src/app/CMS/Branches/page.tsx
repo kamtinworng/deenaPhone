@@ -20,6 +20,16 @@ export interface TYPE_BRANDS {
   createdAt: Date;
   updatedAt: Date;
   Products: [];
+  chatBot: {
+    id: string;
+    title: string;
+    question: string;
+    answer: string;
+    image: string | null;
+    buttonLink: string[];
+    keyword: string[];
+    branchId: string;
+  }[];
 }
 
 function Branches() {

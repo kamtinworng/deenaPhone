@@ -55,8 +55,23 @@ model Branch {
   updatedAt DateTime @updatedAt
 
   Products Products[]
+  chatBot  chatBot[]
 
   @@unique([id, code])
+}
+
+model chatBot {
+  id String @id @default(cuid())
+
+  title      String
+  question   String
+  answer     String
+  image      String?
+  buttonLink String[] @default([]) // label,link
+  keyword    String[] @default([])
+
+  brand    Branch @relation(fields: [branchId], references: [id])
+  branchId String
 }
 
 model User {

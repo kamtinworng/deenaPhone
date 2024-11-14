@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import prismaClient from "../../../../libs/prisma";
+import dayjs from "dayjs";
 
 // GET method for webhook verification
 export async function GET(req: NextRequest) {
@@ -10,7 +12,6 @@ export async function GET(req: NextRequest) {
   const challenge = searchParams.get("hub.challenge");
 
   if (mode === "subscribe" && token === process.env.VERIFY_TOKEN) {
-    console.log("WEBHOOK_VERIFIED");
     return new NextResponse(challenge, {
       status: 200,
       headers: {
@@ -28,18 +29,140 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
     const messagingEvents = body.entry?.[0]?.messaging || [];
 
     messagingEvents.forEach(
-      (event: { sender: { id: string }; message: { text: string } }) => {
+      async (event: { sender: { id: string }; message: { text: string } }) => {
         const senderId = event.sender.id;
         const messageText = event.message?.text;
+        const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+        const findBrand = await prismaClient.installmentPayments.findFirst({
+          select: {
+            over: true,
+            remainingAmount: true,
+            paidInstallments: true,
+            code: true,
+            dueDates: true,
+            product: {
+              select: {
+                installmentAmount: true,
+                deviceName: true,
+                deviceDetail: true,
+                price: true,
+                deposit: true,
+                branch: {
+                  select: {
+                    chatBot: true,
+                    pageAccessToken: true,
+                  },
+                },
+              },
+            },
+          },
+          where: {
+            recipientId: senderId,
+          },
+        });
 
         if (!event.message) return;
 
-        if (messageText === "ขอรหัส SPID") {
-          sendTextMessage(senderId, `your SPID : ${senderId}`);
+        if (
+          messageText?.toLowerCase() === "ขอรหัส spid" ||
+          messageText?.toLowerCase() === "spid"
+        ) {
+          sendTextMessage({
+            senderId: senderId,
+            answer: `your SPID : ${senderId}`,
+            buttonLink: [],
+            image: null,
+            PAGE_ACCESS_TOKEN: PAGE_ACCESS_TOKEN ?? "",
+          });
         }
+
+        if (messageText?.toLowerCase() === "ติดตามการผ่อน") {
+          if (!findBrand)
+            return sendTextMessage({
+              senderId: senderId,
+              answer: `ไม่พบรายการผ่อน`,
+              buttonLink: [],
+              image: null,
+              PAGE_ACCESS_TOKEN: PAGE_ACCESS_TOKEN ?? "",
+            });
+
+          const paided = findBrand
+            ? findBrand?.dueDates.reduce((a, b) => a + (b.pricePaid || 0), 0) +
+              findBrand?.over
+            : 0;
+          sendTextMessage({
+            senderId: senderId,
+            answer: `
+      ❤️ *Deena Code*: ${findBrand?.code}
+
+📱 **รายละเอียดสินค้า**:
+    *ชื่อสินค้า*: ${findBrand?.product.deviceName}
+    *รายละเอียดสินค้า*: ${findBrand?.product.deviceName}
+    *ราคาสินค้า*: ${findBrand?.product.price} บาท
+    *ราคาดาว*: ${findBrand?.product.deposit} บาท
+------------------------------------------------
+
+💳 **รายละเอียดการผ่อน**:
+      ${findBrand?.dueDates
+        .map((due) => {
+          return `
+  📅 *วันที่*: ${dayjs(due.dueDate).format("DD-MM-YY")}
+  🏷️ *สถานะ*: ${
+    due.paymentStatus === "pending"
+      ? "ยังไม่จ่าย"
+      : due.paymentStatus === "paid"
+      ? "จ่ายแล้ว"
+      : "เลิกกำหนด"
+  }
+  💵 *ราคาต่องวด*: ${findBrand.product.installmentAmount}
+        `;
+        })
+        .join("\n")}
+------------------------------------------------
+
+📃**รายการจ่าย**:
+    *จ่ายแล้ว*: ${paided}
+    *คงเหลือ*: ${findBrand?.remainingAmount}
+
+  💸 **ต้องการดำเนินการจ่าย?** [คลิกที่นี่](${process.env.URL}Home/${
+              findBrand.code
+            })
+  หากมีข้อสงสัยเพิ่มเติม ติดต่อเราผ่านข้อความนี้ได้เลย!
+    `,
+            buttonLink: [],
+            image: null,
+            PAGE_ACCESS_TOKEN: PAGE_ACCESS_TOKEN ?? "",
+          });
+        }
+
+        findBrand?.product.branch.chatBot.map((chatbot) => {
+          chatbot.keyword.map((key) => {
+            if (messageText?.toLowerCase().includes(key.toLowerCase())) {
+              sendTextMessage({
+                answer: chatbot.answer,
+                buttonLink: chatbot.buttonLink,
+                image: chatbot.image,
+                PAGE_ACCESS_TOKEN: findBrand.product.branch.pageAccessToken,
+                senderId: senderId,
+              });
+            }
+          });
+
+          if (messageText.toLowerCase() === chatbot.question.toLowerCase()) {
+            sendTextMessage({
+              answer: chatbot.answer,
+              buttonLink: chatbot.buttonLink,
+              image: chatbot.image,
+              PAGE_ACCESS_TOKEN: findBrand.product.branch.pageAccessToken,
+              senderId: senderId,
+            });
+          }
+        });
       }
     );
 
@@ -51,22 +174,51 @@ export async function POST(req: NextRequest) {
 }
 
 // Function to send a text message
-function sendTextMessage(senderId: string, text: string) {
-  const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-
-  const messageData = {
-    recipient: { id: senderId },
-    message: { text: text || "" },
-  };
+function sendTextMessage(props: {
+  senderId: string;
+  answer: string;
+  buttonLink: string[] | { type: string; url: string; title: string }[];
+  image: string | null;
+  PAGE_ACCESS_TOKEN: string | null;
+}) {
+  const messageData =
+    props.buttonLink.length > 0
+      ? {
+          recipient: { id: props.senderId },
+          message: {
+            text: props.answer || "",
+            quick_replies: props.buttonLink.map((button, index) => ({
+              content_type: "text",
+              title: button,
+              payload: `INFO_PAYLOAD_${index}`, // Unique payload for each button
+            })),
+          },
+        }
+      : props.image
+      ? {
+          recipient: { id: props.senderId },
+          message: {
+            attachment: {
+              type: "image",
+              payload: {
+                url: props.image, // URL of the image
+                is_reusable: true,
+              },
+            },
+          },
+        }
+      : {
+          recipient: { id: props.senderId },
+          message: {
+            text: props.answer || "",
+          },
+        };
 
   axios
     .post(
-      `https://graph.facebook.com/v12.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+      `https://graph.facebook.com/v12.0/me/messages?access_token=${props.PAGE_ACCESS_TOKEN}`,
       messageData
     )
-    .then((response) => {
-      console.log("Message sent successfully", response.data);
-    })
     .catch((error) => {
       console.error(
         "Error sending message:",
