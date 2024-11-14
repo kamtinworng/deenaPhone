@@ -38,33 +38,43 @@ export async function POST(req: NextRequest) {
         const messageText = event.message?.text;
         const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-        const findBrand = await prismaClient.installmentPayments.findFirst({
-          select: {
-            over: true,
-            remainingAmount: true,
-            paidInstallments: true,
-            code: true,
-            dueDates: true,
-            product: {
-              select: {
-                installmentAmount: true,
-                deviceName: true,
-                deviceDetail: true,
-                price: true,
-                deposit: true,
-                branch: {
-                  select: {
-                    chatBot: true,
-                    pageAccessToken: true,
+        const findBranch = await prismaClient.branch.findFirst({
+          include: {
+            chatBot: true,
+          },
+          where: {
+            pageAccessToken: PAGE_ACCESS_TOKEN,
+          },
+        });
+
+        const findInstallmentPayment =
+          await prismaClient.installmentPayments.findFirst({
+            select: {
+              over: true,
+              remainingAmount: true,
+              paidInstallments: true,
+              code: true,
+              dueDates: true,
+              product: {
+                select: {
+                  installmentAmount: true,
+                  deviceName: true,
+                  deviceDetail: true,
+                  price: true,
+                  deposit: true,
+                  branch: {
+                    select: {
+                      chatBot: true,
+                      pageAccessToken: true,
+                    },
                   },
                 },
               },
             },
-          },
-          where: {
-            recipientId: senderId,
-          },
-        });
+            where: {
+              recipientId: senderId,
+            },
+          });
 
         if (!event.message) return;
 
@@ -82,7 +92,7 @@ export async function POST(req: NextRequest) {
         }
 
         if (messageText?.toLowerCase() === "ติดตามการผ่อน") {
-          if (!findBrand)
+          if (!findInstallmentPayment)
             return sendTextMessage({
               senderId: senderId,
               answer: `ไม่พบรายการผ่อน`,
@@ -91,24 +101,26 @@ export async function POST(req: NextRequest) {
               PAGE_ACCESS_TOKEN: PAGE_ACCESS_TOKEN ?? "",
             });
 
-          const paided = findBrand
-            ? findBrand?.dueDates.reduce((a, b) => a + (b.pricePaid || 0), 0) +
-              findBrand?.over
+          const paided = findInstallmentPayment
+            ? findInstallmentPayment?.dueDates.reduce(
+                (a, b) => a + (b.pricePaid || 0),
+                0
+              ) + findInstallmentPayment?.over
             : 0;
           sendTextMessage({
             senderId: senderId,
             answer: `
-      ❤️ *Deena Code*: ${findBrand?.code}
+      ❤️ *Deena Code*: ${findInstallmentPayment?.code}
 
 📱 **รายละเอียดสินค้า**:
-    *ชื่อสินค้า*: ${findBrand?.product.deviceName}
-    *รายละเอียดสินค้า*: ${findBrand?.product.deviceName}
-    *ราคาสินค้า*: ${findBrand?.product.price} บาท
-    *ราคาดาว*: ${findBrand?.product.deposit} บาท
+    *ชื่อสินค้า*: ${findInstallmentPayment?.product.deviceName}
+    *รายละเอียดสินค้า*: ${findInstallmentPayment?.product.deviceName}
+    *ราคาสินค้า*: ${findInstallmentPayment?.product.price} บาท
+    *ราคาดาว*: ${findInstallmentPayment?.product.deposit} บาท
 ------------------------------------------------
 
 💳 **รายละเอียดการผ่อน**:
-      ${findBrand?.dueDates
+      ${findInstallmentPayment?.dueDates
         .map((due) => {
           return `
   📅 *วันที่*: ${dayjs(due.dueDate).format("DD-MM-YY")}
@@ -119,7 +131,7 @@ export async function POST(req: NextRequest) {
       ? "จ่ายแล้ว"
       : "เลิกกำหนด"
   }
-  💵 *ราคาต่องวด*: ${findBrand.product.installmentAmount}
+  💵 *ราคาต่องวด*: ${findInstallmentPayment.product.installmentAmount}
         `;
         })
         .join("\n")}
@@ -127,10 +139,10 @@ export async function POST(req: NextRequest) {
 
 📃**รายการจ่าย**:
     *จ่ายแล้ว*: ${paided}
-    *คงเหลือ*: ${findBrand?.remainingAmount}
+    *คงเหลือ*: ${findInstallmentPayment?.remainingAmount}
 
   💸 **ต้องการดำเนินการจ่าย?** [คลิกที่นี่](${process.env.URL}Home/${
-              findBrand.code
+              findInstallmentPayment.code
             })
   หากมีข้อสงสัยเพิ่มเติม ติดต่อเราผ่านข้อความนี้ได้เลย!
     `,
@@ -140,14 +152,14 @@ export async function POST(req: NextRequest) {
           });
         }
 
-        findBrand?.product.branch.chatBot.map((chatbot) => {
+        findBranch?.chatBot.map((chatbot) => {
           chatbot.keyword.map((key) => {
             if (messageText?.toLowerCase().includes(key.toLowerCase())) {
               sendTextMessage({
                 answer: chatbot.answer,
                 buttonLink: chatbot.buttonLink,
                 image: chatbot.image,
-                PAGE_ACCESS_TOKEN: findBrand.product.branch.pageAccessToken,
+                PAGE_ACCESS_TOKEN: findBranch.pageAccessToken,
                 senderId: senderId,
               });
             }
@@ -158,7 +170,7 @@ export async function POST(req: NextRequest) {
               answer: chatbot.answer,
               buttonLink: chatbot.buttonLink,
               image: chatbot.image,
-              PAGE_ACCESS_TOKEN: findBrand.product.branch.pageAccessToken,
+              PAGE_ACCESS_TOKEN: findBranch.pageAccessToken,
               senderId: senderId,
             });
           }
