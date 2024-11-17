@@ -53,35 +53,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/CMS/loading.js"
     ],
-    "/CMS/Branches/page": [
+    "/CMS/Files/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/CMS/Branches/page.js"
+      "static/chunks/app/CMS/Files/page.js"
     ],
-    "/CMS/Branches/loading": [
+    "/CMS/Files/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/CMS/Branches/loading.js"
-    ],
-    "/CMS/Branches/[code]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/CMS/Branches/[code]/page.js"
-    ],
-    "/CMS/Branches/[code]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/CMS/Branches/[code]/loading.js"
-    ],
-    "/CMS/SellSystem/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/CMS/SellSystem/page.js"
-    ],
-    "/CMS/SellSystem/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/CMS/SellSystem/loading.js"
+      "static/chunks/app/CMS/Files/loading.js"
     ],
     "/CMS/InstallmentPayments/page": [
       "static/chunks/webpack.js",
@@ -99,16 +79,25 @@
       "static/css/app/CMS/InstallmentPayments/[id]/page.css",
       "static/chunks/app/CMS/InstallmentPayments/[id]/page.js"
     ],
-    "/Home/[code]/page": [
+    "/CMS/SellSystem/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/Home/[code]/page.css",
-      "static/chunks/app/Home/[code]/page.js"
+      "static/chunks/app/CMS/SellSystem/page.js"
     ],
-    "/Home/[code]/loading": [
+    "/CMS/SellSystem/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Home/[code]/loading.js"
+      "static/chunks/app/CMS/SellSystem/loading.js"
+    ],
+    "/CMS/Branches/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/page.js"
+    ],
+    "/CMS/Branches/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/loading.js"
     ]
   }
 }

@@ -33,7 +33,14 @@ export async function GET() {
         },
       },
       where: {
-        paymentStatus: "overdue",
+        OR: [
+          {
+            paymentStatus: "overdue",
+          },
+          {
+            paymentStatus: "pending",
+          },
+        ],
         dueDate: {
           gte: startOfMonth,
           lte: endOfMonth,

@@ -26,6 +26,7 @@
     "@tabler/icons-react": "^3.15.0",
     "axios": "^1.7.7",
     "bcrypt-ts": "^5.0.2",
+    "csv-parse": "^5.5.6",
     "dayjs": "^1.11.13",
     "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^7.1.0",
@@ -41,7 +42,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.16.5",
+    "@types/node": "^20.17.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",

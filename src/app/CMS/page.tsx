@@ -41,10 +41,10 @@ function CMS() {
       ? installmentPayment?.findInstallmentPayment.map((payment) => (
           <Table.Tr key={payment.id}>
             <Table.Td>{payment.id}</Table.Td>
-            <Table.Td>{payment.installmentPayments.code}</Table.Td>
-            <Table.Td>{payment.installmentPayments.customerName}</Table.Td>
+            <Table.Td>{payment.installmentPayments?.code}</Table.Td>
+            <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
             <Table.Td>
-              {payment.installmentPayments.product.deviceName}
+              {payment.installmentPayments?.product.deviceName}
             </Table.Td>
             <Table.Td>
               <Anchor
@@ -66,10 +66,10 @@ function CMS() {
       ? overInstallmentPayment?.findInstallmentPayment.map((payment) => (
           <Table.Tr key={payment.id}>
             <Table.Td>{payment.id}</Table.Td>
-            <Table.Td>{payment.installmentPayments.code}</Table.Td>
-            <Table.Td>{payment.installmentPayments.customerName}</Table.Td>
+            <Table.Td>{payment.installmentPayments?.code}</Table.Td>
+            <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
             <Table.Td>
-              {payment.installmentPayments.product.deviceName}
+              {payment.installmentPayments?.product.deviceName}
             </Table.Td>
             <Table.Td>
               <Anchor
