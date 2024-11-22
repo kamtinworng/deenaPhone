@@ -1,9 +1,3 @@
 {
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/auth/Login/page": "app/api/auth/Login/page.js",
-  "/api/webhook_deenaPhone/route": "app/api/webhook_deenaPhone/route.js",
-  "/Home/page": "app/Home/page.js",
-  "/CMS/Branches/page": "app/CMS/Branches/page.js",
-  "/CMS/Branches/[code]/page": "app/CMS/Branches/[code]/page.js",
-  "/CMS/page": "app/CMS/page.js"
+  "/api/webhook_deenaPhone/route": "app/api/webhook_deenaPhone/route.js"
 }
