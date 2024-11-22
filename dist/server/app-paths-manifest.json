@@ -1,11 +1,9 @@
 {
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/getInstallmentDay/route": "app/api/getInstallmentDay/route.js",
-  "/api/getInstallmentOverMouth/route": "app/api/getInstallmentOverMouth/route.js",
-  "/api/getBrands/route": "app/api/getBrands/route.js",
-  "/CMS/InstallmentPayments/page": "app/CMS/InstallmentPayments/page.js",
-  "/CMS/page": "app/CMS/page.js",
-  "/CMS/SellSystem/page": "app/CMS/SellSystem/page.js",
-  "/CMS/InstallmentPayments/[id]/page": "app/CMS/InstallmentPayments/[id]/page.js",
-  "/CMS/Branches/page": "app/CMS/Branches/page.js"
+  "/api/auth/Login/page": "app/api/auth/Login/page.js",
+  "/api/webhook_deenaPhone/route": "app/api/webhook_deenaPhone/route.js",
+  "/Home/page": "app/Home/page.js",
+  "/CMS/Branches/page": "app/CMS/Branches/page.js",
+  "/CMS/Branches/[code]/page": "app/CMS/Branches/[code]/page.js",
+  "/CMS/page": "app/CMS/page.js"
 }
