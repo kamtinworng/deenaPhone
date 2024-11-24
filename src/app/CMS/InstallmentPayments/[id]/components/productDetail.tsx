@@ -154,13 +154,13 @@ function ProductDetail(props: {
               placeholder="Input placeholder"
             />
           </Box>
-          <Box hidden={props.customer}>
-            <TextInput
+          {/* <Box hidden={props.customer}> */}
+          {/* <TextInput
               label="PSID"
               value={installmentPayment?.recipientId ?? ""}
               placeholder="Input placeholder"
-            />
-          </Box>
+            /> */}
+          {/* </Box> */}
           <Box hidden={props.customer}>
             <TextInput
               label="รหัสเวลา"

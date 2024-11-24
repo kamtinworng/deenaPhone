@@ -27,6 +27,7 @@ import {
   IconBuildingStore,
   IconChevronDown,
   IconChevronRight,
+  IconDashboard,
   IconDeviceMobile,
   IconFolder,
   IconHeart,
@@ -88,6 +89,12 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
       label: "ข่าวสาร",
       link: "/CMS/blog",
       code: "blog",
+    },
+    {
+      icon: IconDashboard,
+      label: "Dashboard",
+      link: "/CMS/Dashboard",
+      code: "dashboard",
     },
 
     // {

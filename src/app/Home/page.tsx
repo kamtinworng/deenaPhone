@@ -1,6 +1,13 @@
 "use client";
 
-import { Box, Button, Stack, TextInput } from "@mantine/core";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  SimpleGrid,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import Banner from "./components/carousel/page";
 import NewsPromotions from "./components/NewsPromotions/page";
 import Products from "./components/Products/page";
@@ -9,9 +16,14 @@ import AboutUs from "./components/AboutUs/page";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
+import { useState } from "react";
+import { useFetch } from "@mantine/hooks";
 // import FooterCentered from "./components/Footer/page";
 
 function Page() {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const [name, setName] = useState<string>("");
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { code: "" },
@@ -23,10 +35,23 @@ function Page() {
 
   const router = useRouter();
 
+  const { data: findByName } = useFetch<{
+    findInstallmentPayment: {
+      customerName: string;
+      code: string;
+    }[];
+  }>(
+    `${
+      process.env.NEXT_PUBLIC_NEXT_API as string
+    }/getInstallmentPaymentByName?name=${name}`,
+    {
+      method: "GET",
+      headers: myHeaders,
+    }
+  );
+
   const onClick = async (code: string) => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    // Await the fetch call
+    console.log(code);
 
     const response = await fetch(
       `${
@@ -56,13 +81,35 @@ function Page() {
       <Box m={"md"} my={"lg"}>
         <form onSubmit={form.onSubmit((values) => onClick(values.code))}>
           <Stack gap="md" align="stretch" justify="center">
-            <TextInput
-              label="Code deenaphone"
-              placeholder="ex. deenaXX"
-              size="md"
-              key={form.key("code")}
-              {...form.getInputProps("code")}
-            />
+            <SimpleGrid cols={2} spacing="md" verticalSpacing="md">
+              <TextInput
+                label="Code deenaphone"
+                placeholder="ex. deenaXX"
+                size="md"
+                key={form.key("code")}
+                {...form.getInputProps("code")}
+              />
+              <Autocomplete
+                label="ชื่อลูกค้า"
+                placeholder="กรุณาใส่ชื่อของลูกค้าเพื่อใช้ในการค้นหา"
+                size="md"
+                value={name.split(",")[0]}
+                data={
+                  name === ""
+                    ? []
+                    : findByName?.findInstallmentPayment.map((name) => {
+                        return {
+                          value: `${name.customerName},${name.code}`,
+                        };
+                      }) ?? []
+                }
+                onChange={(e) => {
+                  setName(e);
+                  const code = e.split(",")[1] ?? "";
+                  form.setFieldValue("code", code);
+                }}
+              />
+            </SimpleGrid>
             <Button type="submit" bg={"brand"} size="compact-lg" fullWidth>
               ค้นหา
             </Button>

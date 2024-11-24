@@ -1,3 +1,14 @@
 {
-  "/api/webhook_deenaPhone/route": "app/api/webhook_deenaPhone/route.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/api/getInstallmentPaymentByName/route": "app/api/getInstallmentPaymentByName/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/getBlogs/route": "app/api/getBlogs/route.js",
+  "/api/getProducts/route": "app/api/getProducts/route.js",
+  "/api/getInstallmentPaymentByCode/route": "app/api/getInstallmentPaymentByCode/route.js",
+  "/CMS/Files/createProduct/page": "app/CMS/Files/createProduct/page.js",
+  "/CMS/Dashboard/page": "app/CMS/Dashboard/page.js",
+  "/Home/page": "app/Home/page.js",
+  "/Home/[code]/page": "app/Home/[code]/page.js"
 }

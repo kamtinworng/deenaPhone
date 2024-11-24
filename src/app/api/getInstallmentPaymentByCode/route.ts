@@ -4,6 +4,7 @@ import prismaClient from "../../../../libs/prisma";
 export async function GET(req: NextRequest) {
   try {
     const code = req.nextUrl.searchParams.get("code");
+    console.log(code);
 
     if (!code) return NextResponse.json({ message: "มีบ้างอย่างผิดพลาด" });
 
