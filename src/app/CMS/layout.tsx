@@ -66,44 +66,44 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
     link: string;
     code: string;
   }[] = [
-    {
-      icon: IconHome,
-      label: "หน้าแรก",
-      link: "/CMS",
-      code: "CMS",
-    },
-    {
-      icon: IconBuildingStore,
-      label: "สาขาร้าน",
-      link: "/CMS/Branches",
-      code: "Branches",
-    },
-    {
-      icon: IconShoppingCart,
-      label: "ระบบขายสินค้า",
-      link: "/CMS/SellSystem",
-      code: "SellSystem",
-    },
-    {
-      icon: IconBlockquote,
-      label: "ข่าวสาร",
-      link: "/CMS/blog",
-      code: "blog",
-    },
-    {
-      icon: IconDashboard,
-      label: "Dashboard",
-      link: "/CMS/Dashboard",
-      code: "dashboard",
-    },
+      {
+        icon: IconHome,
+        label: "หน้าแรก",
+        link: "/CMS",
+        code: "CMS",
+      },
+      {
+        icon: IconBuildingStore,
+        label: "สาขาร้าน",
+        link: "/CMS/Branches",
+        code: "Branches",
+      },
+      {
+        icon: IconShoppingCart,
+        label: "ระบบขายสินค้า",
+        link: "/CMS/SellSystem",
+        code: "SellSystem",
+      },
+      {
+        icon: IconBlockquote,
+        label: "ข่าวสาร",
+        link: "/CMS/blog",
+        code: "blog",
+      },
+      {
+        icon: IconDashboard,
+        label: "Dashboard",
+        link: "/CMS/Dashboard",
+        code: "dashboard",
+      },
 
-    // {
-    //   icon: IconBrandFacebook,
-    //   label: "PSID",
-    //   link: "/CMS/PSID",
-    //   code: "PSID",
-    // },
-  ];
+      // {
+      //   icon: IconBrandFacebook,
+      //   label: "PSID",
+      //   link: "/CMS/PSID",
+      //   code: "PSID",
+      // },
+    ];
 
   const { setColorScheme } = useMantineColorScheme();
   const [opened, { toggle }] = useDisclosure();
@@ -128,9 +128,11 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
     href: string;
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
     active: boolean;
+    key: number
   }) => {
     return (
       <NavLink
+        key={props.key}
         label={props.label}
         variant={props.active ? "filled" : "light"}
         className={props.active ? classes.navlinknothover : classes.navlink}
@@ -305,6 +307,7 @@ export default function CMSLayout({ children }: { children: React.ReactNode }) {
               href: link.link,
               icon: link.icon,
               label: link.label,
+              key: index,
               active: HomeActive
                 ? index === 0
                   ? true

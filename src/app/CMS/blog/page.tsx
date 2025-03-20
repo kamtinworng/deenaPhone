@@ -9,11 +9,14 @@ import {
   Center,
   Pagination,
   Badge,
+  Text
 } from "@mantine/core";
 import { useDebouncedState, useFetch } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetBlogs } from "./loader";
+import { notifications } from "@mantine/notifications";
 
 export interface typeBlog {
   findBlogs: {
@@ -23,18 +26,28 @@ export interface typeBlog {
     typeBlog: "news" | "promotion";
     image: string;
   }[];
-  countfindBlogs: number;
+  countPagination: number;
 }
 
 function Blog() {
   const [search, setSearch] = useDebouncedState("", 200);
   const [page, setPage] = useState(1);
 
-  const { data: blogs } = useFetch<typeBlog>(
-    `${
-      process.env.NEXT_PUBLIC_NEXT_API as string
-    }/getBlogs?search=${search}&page=${page}`
-  );
+  const [blogs, setBlogs] = useState<typeBlog | null>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await GetBlogs({ page: page, search: search })
+      if (res.status !== 200) {
+        notifications.show({
+          message: res.message,
+          color: 'red'
+        })
+      }
+      setBlogs(res.data)
+    }
+    fetchData()
+  }, [])
 
   const router = useRouter();
 
@@ -84,10 +97,13 @@ function Blog() {
           <Table.Tbody>{rows}</Table.Tbody>
           <Table.Caption>
             <Center>
-              <Pagination
-                onChange={(e) => setPage(e)}
-                total={blogs?.countfindBlogs ?? 0}
-              />
+              {rows ?
+                <Pagination
+                  onChange={(e) => setPage(e)}
+                  total={blogs?.countPagination ?? 0}
+                />
+                : <Text>ไม่มีรายการข่าวสาร</Text>
+              }
             </Center>
           </Table.Caption>
         </Table>

@@ -11,14 +11,12 @@ import {
 import Banner from "./components/carousel/page";
 import NewsPromotions from "./components/NewsPromotions/page";
 import Products from "./components/Products/page";
-// import Dashboard from "./components/Dashboard/page";
 import AboutUs from "./components/AboutUs/page";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { useFetch } from "@mantine/hooks";
-// import FooterCentered from "./components/Footer/page";
 
 function Page() {
   const myHeaders = new Headers();
@@ -41,8 +39,7 @@ function Page() {
       code: string;
     }[];
   }>(
-    `${
-      process.env.NEXT_PUBLIC_NEXT_API as string
+    `${process.env.NEXT_PUBLIC_NEXT_API as string
     }/getInstallmentPaymentByName?name=${name}`,
     {
       method: "GET",
@@ -51,11 +48,9 @@ function Page() {
   );
 
   const onClick = async (code: string) => {
-    console.log(code);
 
     const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_NEXT_API as string
+      `${process.env.NEXT_PUBLIC_NEXT_API as string
       }/getInstallmentPaymentByCode?code=${code}`,
       {
         method: "GET",
@@ -98,10 +93,10 @@ function Page() {
                   name === ""
                     ? []
                     : findByName?.findInstallmentPayment.map((name) => {
-                        return {
-                          value: `${name.customerName},${name.code}`,
-                        };
-                      }) ?? []
+                      return {
+                        value: `${name.customerName},${name.code}`,
+                      };
+                    }) ?? []
                 }
                 onChange={(e) => {
                   setName(e);

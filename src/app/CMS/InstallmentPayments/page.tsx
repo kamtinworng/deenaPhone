@@ -16,6 +16,7 @@ import {
   TextInput,
   Flex,
   Pagination,
+  SimpleGrid,
 } from "@mantine/core";
 import { useDebouncedState, useFetch } from "@mantine/hooks";
 import { IconCircleCheck, IconSearch } from "@tabler/icons-react";
@@ -46,10 +47,11 @@ export interface TYPEINSTALLMENTPAYMENT {
 
 function InstallmentPayments() {
   const [search, setSearch] = useDebouncedState("", 200);
+  const [name, setName] = useDebouncedState("", 200);
   const [page, setPage] = useState(1);
 
   const { data: installmentPayments } = useFetch<TYPEINSTALLMENTPAYMENT>(
-    `${process.env.NEXT_PUBLIC_NEXT_API}/getInstallmentPayments?search=${search}&page=${page}`
+    `${process.env.NEXT_PUBLIC_NEXT_API}/getInstallmentPayments?search=${search}&name=${name}&page=${page}`
   );
 
   const router = useRouter();
@@ -59,15 +61,26 @@ function InstallmentPayments() {
       <Title mt={"lg"}>InstallmentPayments</Title>
 
       <Divider mt={"md"} />
-      <TextInput
-        mt={"md"}
-        label="Search Code"
-        placeholder="Ex. deenaXX"
-        size="lg"
-        radius={"md"}
-        leftSection={<IconSearch size={20} />}
-        onChange={(e) => setSearch(e.currentTarget.value)}
-      />
+      <SimpleGrid cols={2} >
+        <TextInput
+          mt={"md"}
+          label="Search Code"
+          placeholder="Ex. deenaXX"
+          size="lg"
+          radius={"md"}
+          leftSection={<IconSearch size={20} />}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+        />
+        <TextInput
+          mt={"md"}
+          label="ค้นหาด้วยชื่อ"
+          size="lg"
+          radius={"md"}
+          leftSection={<IconSearch size={20} />}
+          onChange={(e) => setName(e.currentTarget.value)}
+        />
+      </SimpleGrid>
+
       <Paper
         bg={`var(--mantine-color-gray-2)`}
         radius={"md"}

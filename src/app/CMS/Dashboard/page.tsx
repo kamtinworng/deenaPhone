@@ -4,29 +4,48 @@ import { Card, Flex, Select, Title } from "@mantine/core";
 import { YearPickerInput } from "@mantine/dates";
 import { useFetch } from "@mantine/hooks";
 import { IconCalendar } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetBranchs } from "../Branches/loader";
+import { notifications } from "@mantine/notifications";
+import { GetDashboardValue } from "./loader";
 function Page() {
   const [value, setValue] = useState<Date | null>(new Date());
   const [brand, setBrand] = useState<string>("");
-
-  const { data: brands } = useFetch<
-    {
-      name: string;
-      code: string;
-    }[]
-  >(`${process.env.NEXT_PUBLIC_NEXT_API}/getBrands`);
-
-  const { data: values } = useFetch<
+  const [values, setValues] = useState<
     {
       month: number;
       totalSales: number;
       totalOrders: number;
-    }[]
-  >(
-    `${
-      process.env.NEXT_PUBLIC_NEXT_API
-    }/getDashboardValue?code=${brand}&year=${value?.getFullYear()}`
-  );
+    }[] | undefined
+  >()
+
+  const [brands, setBrands] = useState<{
+    name: string;
+    code: string;
+  }[]>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await GetBranchs()
+      const resDashBoard = await GetDashboardValue({ code: brand, year: value!.getFullYear().toString() })
+      if (res.status !== 200) {
+        notifications.show({
+          message: res.message,
+          color: 'red'
+        })
+      }
+      if (resDashBoard.status !== 200) {
+        notifications.show({
+          message: res.message,
+          color: 'red'
+        })
+      }
+
+      setValues(resDashBoard.data ?? [])
+      setBrands(res.data)
+    }
+    fetchData()
+  }, [])
 
   const monthNames = [
     "มกราคม",

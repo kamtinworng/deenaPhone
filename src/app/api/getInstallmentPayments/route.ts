@@ -3,6 +3,7 @@ import prismaClient from "../../../../libs/prisma";
 
 export async function GET(req: NextRequest) {
   const search = req.nextUrl.searchParams.get("search");
+  const name = req.nextUrl.searchParams.get("name");
   const page = req.nextUrl.searchParams.get("page");
   const TAKE = 10;
 
@@ -32,9 +33,17 @@ export async function GET(req: NextRequest) {
           },
         },
         where: {
-          code: {
-            contains: !search ? undefined : search,
-          },
+          OR: [
+            {
+              code: {
+                contains: !search ? undefined : search,
+              },
+              customerName: {
+                contains: !name ? undefined : name
+              }
+            }
+          ]
+
         },
         skip: !page ? 0 : parseInt(page) === 1 ? 0 : parseInt(page) + 1 * TAKE,
         take: TAKE,

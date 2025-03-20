@@ -42,11 +42,10 @@ const theme = createTheme({
 });
 
 const kanit = Kanit({
-  weight: ["200"],
-  subsets: ["thai"],
-  variable: "--font-Kanit",
+  variable: "--font-kanit",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "700"],
 });
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -54,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th">
-      <body className={kanit.className}>
+      <body className={kanit.variable}>
         <MantineProvider theme={theme}>
           <SessionProviderCustom>
             <Notifications />

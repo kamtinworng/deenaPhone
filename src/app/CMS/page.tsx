@@ -1,90 +1,49 @@
 "use client";
 
-import { Anchor, Flex, Paper, Table, Title, Text, Group } from "@mantine/core";
+import { Anchor, Flex, Paper, Table, Title, Text, Group, Pagination } from "@mantine/core";
 import { useFetch } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import GetInstallmentPayment from "./loader";
+import { notifications } from "@mantine/notifications";
+import { sendMessage } from "./sendMessage";
 
 export interface TYPEINSTALLMENTPAYMENTTODAY {
-  status: number;
-  message: string | null;
-  findInstallmentPayment: {
-    pricePaid: number;
+  id: string;
+  pricePaid: number;
+  installmentPayments: {
+    code: string;
     id: string;
-    installmentPayments: {
-      id: string;
-      customerName: string;
-      code: string;
-      product: {
-        deviceName: string;
-      };
+    customerName: string;
+    product: {
+      deviceName: string;
     };
-  }[];
+  } | null;
 }
 
 function CMS() {
-  const { data: installmentPayment } = useFetch<TYPEINSTALLMENTPAYMENTTODAY>(
-    `${process.env.NEXT_PUBLIC_NEXT_API}/getInstallmentDay`
-  );
-
-  const { data: overInstallmentPayment } =
-    useFetch<TYPEINSTALLMENTPAYMENTTODAY>(
-      `${process.env.NEXT_PUBLIC_NEXT_API}/getInstallmentOverMouth`
-    );
-
-  console.log(overInstallmentPayment);
-
   const router = useRouter();
+  const [installmentPayment, setInstallmentPayment] = useState<TYPEINSTALLMENTPAYMENTTODAY[]>([])
+  const [overInstallmentPayment, setOverInstallmentPayment] = useState<TYPEINSTALLMENTPAYMENTTODAY[]>([])
 
-  const rows =
-    installmentPayment?.status === 200
-      ? installmentPayment?.findInstallmentPayment.map((payment) => (
-          <Table.Tr key={payment.id}>
-            <Table.Td>{payment.id}</Table.Td>
-            <Table.Td>{payment.installmentPayments?.code}</Table.Td>
-            <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
-            <Table.Td>
-              {payment.installmentPayments?.product.deviceName}
-            </Table.Td>
-            <Table.Td>
-              <Anchor
-                onClick={() =>
-                  router.push(
-                    `CMS/InstallmentPayments/${payment.installmentPayments.id}`
-                  )
-                }
-              >
-                ดำเนินการ
-              </Anchor>
-            </Table.Td>
-          </Table.Tr>
-        ))
-      : "";
-
-  const rowsOver =
-    overInstallmentPayment?.status === 200
-      ? overInstallmentPayment?.findInstallmentPayment.map((payment) => (
-          <Table.Tr key={payment.id}>
-            <Table.Td>{payment.id}</Table.Td>
-            <Table.Td>{payment.installmentPayments?.code}</Table.Td>
-            <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
-            <Table.Td>
-              {payment.installmentPayments?.product.deviceName}
-            </Table.Td>
-            <Table.Td>
-              <Anchor
-                onClick={() =>
-                  router.push(
-                    `CMS/InstallmentPayments/${payment.installmentPayments.id}`
-                  )
-                }
-              >
-                ดำเนินการ
-              </Anchor>
-            </Table.Td>
-          </Table.Tr>
-        ))
-      : "";
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await GetInstallmentPayment()
+      await sendMessage()
+      if (res.status !== 200) {
+        notifications.show({
+          message: 'กรุณาติดต่อ ADMIN',
+          color: 'red'
+        })
+      }
+      if (res.data) {
+        setInstallmentPayment(res.data.findInstallmentPayment)
+        setOverInstallmentPayment(res.data.findInstallmentPaymentMonth)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -107,21 +66,39 @@ function CMS() {
             my={"lg"}
             captionSide="bottom"
           >
-            {installmentPayment?.status === 404 ? (
-              <Table.Caption>{installmentPayment.message}</Table.Caption>
-            ) : (
-              ""
-            )}
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Invoice</Table.Th>
                 <Table.Th>Code</Table.Th>
                 <Table.Th>customer name</Table.Th>
                 <Table.Th>device name</Table.Th>
-                <Table.Th></Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Tbody>{
+              installmentPayment?.map((payment) => {
+                return (
+                  <Table.Tr key={payment.id}>
+                    <Table.Td>{payment.id}</Table.Td>
+                    <Table.Td>{payment.installmentPayments?.code}</Table.Td>
+                    <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
+                    <Table.Td>
+                      {payment.installmentPayments?.product.deviceName}
+                    </Table.Td>
+                    <Table.Td>
+                      <Anchor
+                        onClick={() =>
+                          router.push(
+                            `CMS/InstallmentPayments/${payment.id}`
+                          )
+                        }
+                      >
+                        ดำเนินการ
+                      </Anchor>
+                    </Table.Td>
+                  </Table.Tr>
+                )
+              })
+            }</Table.Tbody>
           </Table>
         </Table.ScrollContainer>
       </Paper>
@@ -144,11 +121,6 @@ function CMS() {
             my={"lg"}
             captionSide="bottom"
           >
-            {overInstallmentPayment?.status === 404 ? (
-              <Table.Caption>{overInstallmentPayment.message}</Table.Caption>
-            ) : (
-              ""
-            )}
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Invoice</Table.Th>
@@ -158,7 +130,31 @@ function CMS() {
                 <Table.Th></Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rowsOver}</Table.Tbody>
+            <Table.Tbody>{
+              overInstallmentPayment?.map((payment) => {
+                return (
+                  <Table.Tr key={payment.id}>
+                    <Table.Td>{payment.id}</Table.Td>
+                    <Table.Td>{payment.installmentPayments?.code}</Table.Td>
+                    <Table.Td>{payment.installmentPayments?.customerName}</Table.Td>
+                    <Table.Td>
+                      {payment.installmentPayments?.product.deviceName}
+                    </Table.Td>
+                    <Table.Td>
+                      <Anchor
+                        onClick={() =>
+                          router.push(
+                            `CMS/InstallmentPayments/${payment.id}`
+                          )
+                        }
+                      >
+                        ดำเนินการ
+                      </Anchor>
+                    </Table.Td>
+                  </Table.Tr>
+                )
+              })
+            }</Table.Tbody>
           </Table>
         </Table.ScrollContainer>
       </Paper>

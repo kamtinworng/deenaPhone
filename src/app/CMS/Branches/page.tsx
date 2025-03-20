@@ -8,36 +8,43 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useFetch } from "@mantine/hooks";
 import { IconBuildingStore, IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { GetBranchs } from "./loader";
+import { notifications } from "@mantine/notifications";
 
 export interface TYPE_BRANDS {
-  id: string;
   code: string;
+  id: string;
   name: string;
-  profileImage: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  Products: [];
-  chatBot: {
-    id: string;
-    title: string;
-    question: string;
-    answer: string;
-    image: string | null;
-    buttonLink: string[];
-    keyword: string[];
-    branchId: string;
-  }[];
+  _count: {
+    Products: number;
+  };
 }
 
 function Branches() {
   const router = useRouter();
+  const [brands, setBrands] = useState<TYPE_BRANDS[]>([]);
+  const [loading, setLoading] = useState(false)
 
-  const { data: brands, loading: brandsLoading } = useFetch<TYPE_BRANDS[]>(
-    `${process.env.NEXT_PUBLIC_NEXT_API}/getBrands`
-  );
+  useEffect(() => {
+    setLoading(true)
+    const fetchData = async () => {
+      const res = await GetBranchs()
+      if (res.status !== 200) {
+        notifications.show({
+          message: res.message,
+          color: 'red'
+        })
+        setLoading(false)
+      }
+      setBrands(res.data)
+      setLoading(false)
+    }
+    fetchData()
+  }, [])
+
 
   const itemBrands = brands?.map((brand) => {
     return (
@@ -60,14 +67,14 @@ function Branches() {
             </Text>
           </Flex>
           <Flex justify={"start"} gap={"md"}>
-            <Badge color="brand">Mobile +{brand.Products.length}</Badge>
+            <Badge color="brand">Mobile +{brand._count.Products}</Badge>
           </Flex>
         </Stack>
       </Card>
     );
   });
 
-  const loading = Array(15)
+  const loadingBrand = Array(15)
     .fill(0)
     .map((_, key) => {
       return <Skeleton height={200} key={key} />;
@@ -87,7 +94,7 @@ function Branches() {
           <Text>เพิ่มสาขาร้าน</Text>
         </Flex>
       </Card>
-      {brandsLoading ? loading : itemBrands}
+      {loading ? loadingBrand : itemBrands}
     </SimpleGrid>
   );
 }

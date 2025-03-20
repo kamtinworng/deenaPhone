@@ -40,6 +40,10 @@ export async function POST(req: NextRequest) {
     }
 
     const createS3 = async (image: string) => {
+
+
+
+
       const command = await createCommand(image);
       await s3.send(command);
       const url = createUrlS3(command.input.Key!);
@@ -81,8 +85,8 @@ export async function POST(req: NextRequest) {
     const newCode = !lastCode
       ? "deena1"
       : !silpCode
-      ? "deena1"
-      : "deena".concat((parseInt(silpCode[1] as string) + 1).toString());
+        ? "deena1"
+        : "deena".concat((parseInt(silpCode[1] as string) + 1).toString());
 
     const createInstallmentPayment =
       await prismaClient.installmentPayments.create({

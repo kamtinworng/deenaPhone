@@ -1,14 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/api/getInstallmentPaymentByName/route": "app/api/getInstallmentPaymentByName/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/getBlogs/route": "app/api/getBlogs/route.js",
-  "/api/getProducts/route": "app/api/getProducts/route.js",
-  "/api/getInstallmentPaymentByCode/route": "app/api/getInstallmentPaymentByCode/route.js",
-  "/CMS/Files/createProduct/page": "app/CMS/Files/createProduct/page.js",
-  "/CMS/Dashboard/page": "app/CMS/Dashboard/page.js",
+  "/api/auth/Login/page": "app/api/auth/Login/page.js",
+  "/api/getInstallmentPayments/route": "app/api/getInstallmentPayments/route.js",
   "/Home/page": "app/Home/page.js",
-  "/Home/[code]/page": "app/Home/[code]/page.js"
+  "/CMS/InstallmentPayments/page": "app/CMS/InstallmentPayments/page.js",
+  "/CMS/page": "app/CMS/page.js"
 }

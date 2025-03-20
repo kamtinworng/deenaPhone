@@ -27,7 +27,7 @@ export async function createCommand(value: string) {
 
   async function processImageWithSharp(decodedData: Buffer) {
     try {
-      return await sharp(decodedData, { failOnError: false }).webp().toBuffer();
+      return await sharp(decodedData, { failOnError: false }).resize({ height: 1280, width: 720, fit: 'contain' }).webp().toBuffer();
     } catch (error) {
       return decodedData;
     }
