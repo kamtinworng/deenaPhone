@@ -21,6 +21,17 @@ export interface TYPE_BRANDS {
   _count: {
     Products: number;
   };
+  chatBot: {
+    id: string;
+    title: string;
+    question: string;
+    answer: string;
+    image: string | null;
+    buttonLink: string[];
+    keyword: string[];
+    branchId: string;
+  }[];
+  profileImage: string | null
 }
 
 function Branches() {

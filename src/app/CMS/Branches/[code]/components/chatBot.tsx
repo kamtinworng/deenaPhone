@@ -55,8 +55,7 @@ function ChatBot(props: {
         myHeaders.append("Content-Type", "application/json");
 
         const response = await fetch(
-          `${
-            process.env.NEXT_PUBLIC_NEXT_API as string
+          `${process.env.NEXT_PUBLIC_NEXT_API as string
           }/deleteChatBot?chatBotId=${chatBotId}`,
           {
             method: "DELETE",

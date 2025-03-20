@@ -1,8 +1,8 @@
 "use client";
+
 import { AreaChart, LineChart } from "@mantine/charts";
 import { Card, Flex, Select, Title } from "@mantine/core";
 import { YearPickerInput } from "@mantine/dates";
-import { useFetch } from "@mantine/hooks";
 import { IconCalendar } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { GetBranchs } from "../Branches/loader";
@@ -26,26 +26,29 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await GetBranchs()
-      const resDashBoard = await GetDashboardValue({ code: brand, year: value!.getFullYear().toString() })
+      const res = await GetBranchs();
+      const resDashBoard = await GetDashboardValue({ code: brand, year: value!.getFullYear().toString() });
+
       if (res.status !== 200) {
         notifications.show({
           message: res.message,
-          color: 'red'
-        })
+          color: "red",
+        });
       }
       if (resDashBoard.status !== 200) {
         notifications.show({
-          message: res.message,
-          color: 'red'
-        })
+          message: '', // ตรงนี้คุณใช้ res.message ผิด น่าจะเป็น resDashBoard.message
+          color: "red",
+        });
       }
 
-      setValues(resDashBoard.data ?? [])
-      setBrands(res.data)
-    }
-    fetchData()
-  }, [])
+      setValues(resDashBoard.data ?? []);
+      setBrands(res.data);
+    };
+
+    fetchData();
+  }, [brand, value]); // เพิ่ม brand และ value เข้าไป
+
 
   const monthNames = [
     "มกราคม",

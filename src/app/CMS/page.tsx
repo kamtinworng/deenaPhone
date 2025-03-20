@@ -1,7 +1,6 @@
 "use client";
 
-import { Anchor, Flex, Paper, Table, Title, Text, Group, Pagination } from "@mantine/core";
-import { useFetch } from "@mantine/hooks";
+import { Anchor, Flex, Paper, Table, Title, Text, Group } from "@mantine/core";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

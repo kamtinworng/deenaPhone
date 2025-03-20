@@ -5,6 +5,7 @@ export async function GetBranchs() {
     try {
         const findBranchs = await prismaClient.branch.findMany({
             select: {
+                chatBot: true,
                 _count: {
                     select: {
                         Products: true
@@ -12,7 +13,8 @@ export async function GetBranchs() {
                 },
                 name: true,
                 code: true,
-                id: true
+                id: true,
+                profileImage: true,
             },
         });
         if (!findBranchs)

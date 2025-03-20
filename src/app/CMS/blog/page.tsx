@@ -11,7 +11,7 @@ import {
   Badge,
   Text
 } from "@mantine/core";
-import { useDebouncedState, useFetch } from "@mantine/hooks";
+import { useDebouncedState } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,17 +37,18 @@ function Blog() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await GetBlogs({ page: page, search: search })
+      const res = await GetBlogs({ page: page, search: search });
       if (res.status !== 200) {
         notifications.show({
           message: res.message,
-          color: 'red'
-        })
+          color: "red",
+        });
       }
-      setBlogs(res.data)
-    }
-    fetchData()
-  }, [])
+      setBlogs(res.data);
+    };
+    fetchData();
+  }, [page, search]); // เพิ่ม page และ search เข้าไป
+
 
   const router = useRouter();
 

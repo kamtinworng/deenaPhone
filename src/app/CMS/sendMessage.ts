@@ -11,7 +11,6 @@ export const sendMessage = async () => {
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth();
-        const day = today.getDate();
 
         const firstDay = new Date(year, month, 1).toISOString().split('T')[0]; // YYYY-MM-DD
         const midDay = new Date(year, month, 15).toISOString().split('T')[0];
