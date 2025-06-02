@@ -1,7 +1,15 @@
 {
+  "/api/register/route": "app/api/register/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/login/route": "app/api/login/route.js",
   "/api/auth/Login/page": "app/api/auth/Login/page.js",
   "/api/getInstallmentPayments/route": "app/api/getInstallmentPayments/route.js",
+  "/api/getProducts/route": "app/api/getProducts/route.js",
+  "/api/getBrands/route": "app/api/getBrands/route.js",
   "/Home/page": "app/Home/page.js",
+  "/CMS/page": "app/CMS/page.js",
+  "/CMS/Branches/page": "app/CMS/Branches/page.js",
   "/CMS/InstallmentPayments/page": "app/CMS/InstallmentPayments/page.js",
-  "/CMS/page": "app/CMS/page.js"
+  "/CMS/Files/createProduct/page": "app/CMS/Files/createProduct/page.js",
+  "/CMS/Files/page": "app/CMS/Files/page.js"
 }

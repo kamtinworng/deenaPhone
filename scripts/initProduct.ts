@@ -64,7 +64,6 @@ const initProduct = async () => {
 
             await prismaClient.products.create({
               data: {
-                id: product.ID_product,
                 deposit: parseInt(product.star_product as string),
                 deviceDetail: product.detail_product ?? "",
                 deviceName: product.name_product ?? "",

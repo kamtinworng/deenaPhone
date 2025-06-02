@@ -47,18 +47,18 @@ function Page({ params }: { params: { id: string } }) {
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const dueDateStatusNotPaid = installmentPayment?.dueDates.filter(
+  const dueDateStatusNotPaid = installmentPayment?.dueDates ? installmentPayment?.dueDates.filter(
     (f) => f.paymentStatus !== "paid"
-  );
+  ) : [];
 
-  const dueDateStatusPaid = installmentPayment?.dueDates.filter(
+  const dueDateStatusPaid = installmentPayment?.dueDates ? installmentPayment?.dueDates.filter(
     (f) => f.paymentStatus === "paid"
-  );
+  ) : [];
 
   const paided = installmentPayment
-    ? installmentPayment?.dueDates.reduce((a, b) => a + (b.pricePaid || 0), 0) +
+    ? installmentPayment?.dueDates ? installmentPayment?.dueDates.reduce((a, b) => a + (b.pricePaid || 0), 0) +
       installmentPayment?.over
-    : 0;
+      : 0 : 0;
 
   const rowsNotPaid = dueDateStatusNotPaid?.map((item, index) => {
     const dueDate = dayjs(item.dueDate).format("DD / MMM / YYYY");
@@ -98,8 +98,8 @@ function Page({ params }: { params: { id: string } }) {
               item.paymentStatus === "pending"
                 ? "yellow"
                 : item.paymentStatus === "paid"
-                ? "green"
-                : "red"
+                  ? "green"
+                  : "red"
             }
           >
             {item.paymentStatus}
@@ -143,8 +143,8 @@ function Page({ params }: { params: { id: string } }) {
               item.paymentStatus === "pending"
                 ? "yellow"
                 : item.paymentStatus === "paid"
-                ? "green"
-                : "red"
+                  ? "green"
+                  : "red"
             }
           >
             {item.paymentStatus}
@@ -322,7 +322,7 @@ function Page({ params }: { params: { id: string } }) {
           spacing="md"
           verticalSpacing="md"
         >
-          {installmentPayment?.receiptImage.map((image, index) => {
+          {installmentPayment?.receiptImage ? installmentPayment?.receiptImage.map((image, index) => {
             return (
               <Image
                 alt="receipt image"
@@ -331,7 +331,7 @@ function Page({ params }: { params: { id: string } }) {
                 radius={"md"}
               />
             );
-          })}
+          }) : <></>}
         </SimpleGrid>
       </Paper>
     </>

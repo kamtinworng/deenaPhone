@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,6 +5,123 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Branch {
+  id              String     @id @default(cuid())
+  code            String     @unique
+  name            String
+  profileImage    String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  pageAccessToken String?
+  verifyToken     String?
+  Products        Products[]
+  chatBot         chatBot[]
+
+  @@unique([id, code])
+}
+
+model chatBot {
+  id         String   @id @default(cuid())
+  title      String
+  question   String
+  answer     String
+  image      String?
+  buttonLink String[] @default([])
+  keyword    String[] @default([])
+  branchId   String
+  brand      Branch   @relation(fields: [branchId], references: [id])
+}
+
+model User {
+  id                         String                       @id @default(cuid())
+  username                   String
+  password                   String
+  image                      String?
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  timeLineInstallmentPayment timeLineInstallmentPayment[]
+}
+
+model Products {
+  id                   String                @id @default(cuid())
+  images               String[]
+  deviceName           String
+  deviceDetail         String
+  indentifier          String
+  price                Int
+  deposit              Int
+  numberOfInstallments String
+  installmentAmount    Int
+  icloud               String?
+  passwordIcloud       String?
+  lockscreen           String?
+  idLoad               String?
+  passwordIdLoad       String?
+  status               productStatus         @default(ForSale)
+  branchId             String
+  createAt             DateTime              @default(now())
+  branch               Branch                @relation(fields: [branchId], references: [id])
+  installmentPayments  installmentPayments[]
+}
+
+model installmentPayments {
+  id                         String                       @id @default(cuid())
+  code                       String
+  productsId                 String
+  paidInstallments           Int
+  remainingAmount            Int
+  createdAt                  DateTime                     @default(now())
+  customerName               String
+  facebookLink               String
+  tel                        String
+  downPaymentChoice          choice
+  paymentAgreementFile       String
+  deviceImeiImageFile        String
+  idCardImage                String
+  houseRegistrationImage     String
+  customerReceivingImage     String
+  statusInstallmentPayment   statusInstallmentPayment     @default(inProgress)
+  receiptImage               String[]
+  over                       Int                          @default(0)
+  icloudPhoneNumber          String
+  recipientId                String
+  screenId                   String
+  timeCode                   String
+  allIdReceiptImage          String[]
+  dueDates                   dueDates[]
+  product                    Products                     @relation(fields: [productsId], references: [id])
+  timeLineInstallmentPayment timeLineInstallmentPayment[]
+}
+
+model dueDates {
+  id                    String               @id @default(cuid())
+  dueDate               DateTime
+  paymentStatus         paymentStatus        @default(pending)
+  updatedAt             DateTime?
+  pricePaid             Int
+  installmentPaymentsId String?
+  installmentPayments   installmentPayments? @relation(fields: [installmentPaymentsId], references: [id])
+}
+
+model timeLineInstallmentPayment {
+  id                    String              @id @default(cuid())
+  title                 String
+  message               String
+  createdAt             DateTime            @default(now())
+  userId                String?
+  installmentPaymentsId String
+  installmentPayments   installmentPayments @relation(fields: [installmentPaymentsId], references: [id])
+  creatBy               User?               @relation(fields: [userId], references: [id])
+}
+
+model blog {
+  id       String   @id @default(cuid())
+  title    String
+  detail   String
+  typeBlog typeBlog
+  image    String
 }
 
 enum paymentStatus {
@@ -39,151 +150,4 @@ enum productStatus {
 enum typeBlog {
   news
   promotion
-}
-
-model Branch {
-  id   String @id @default(cuid())
-  code String @unique
-  name String
-
-  verifyToken     String?
-  pageAccessToken String?
-
-  profileImage String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  Products Products[]
-  chatBot  chatBot[]
-
-  @@unique([id, code])
-}
-
-model chatBot {
-  id String @id @default(cuid())
-
-  title      String
-  question   String
-  answer     String
-  image      String?
-  buttonLink String[] @default([]) // label,link
-  keyword    String[] @default([])
-
-  brand    Branch @relation(fields: [branchId], references: [id])
-  branchId String
-}
-
-model User {
-  id                         String                       @id @default(cuid())
-  username                   String
-  password                   String
-  image                      String?
-  createdAt                  DateTime                     @default(now())
-  updatedAt                  DateTime                     @updatedAt
-  timeLineInstallmentPayment timeLineInstallmentPayment[]
-}
-
-model Products {
-  id String @id @default(cuid())
-
-  // model phone
-  images               String[]
-  deviceName           String
-  deviceDetail         String
-  indentifier          String // IEMI or serial
-  price                Int // ราคาเต็ม
-  deposit              Int // เงินดาวน์
-  numberOfInstallments String // จำนวนงวด
-  installmentAmount    Int // จำนวนเงินต่อครั้งที่ผ่อนชำระ
-  icloud               String?
-  passwordIcloud       String?
-  lockscreen           String?
-  idLoad               String?
-  passwordIdLoad       String?
-
-  status productStatus @default(ForSale)
-
-  branch   Branch @relation(fields: [branchId], references: [id])
-  branchId String
-
-  createAt DateTime @default(now())
-
-  installmentPayments installmentPayments[]
-}
-
-model installmentPayments {
-  id String @id @default(cuid())
-
-  code String
-
-  product          Products @relation(fields: [productsId], references: [id])
-  productsId       String
-  paidInstallments Int // จำนวนงวดที่จ่ายแล้ว
-  remainingAmount  Int // จำนวนเงินคงเหลือที่ต้องชำระ
-  createdAt        DateTime @default(now())
-
-  customerName      String
-  facebookLink      String
-  recipientId       String //PSID facebook
-  tel               String
-  timeCode          String
-  screenId          String
-  icloudPhoneNumber String
-  downPaymentChoice choice
-
-  paymentAgreementFile   String
-  deviceImeiImageFile    String
-  idCardImage            String
-  houseRegistrationImage String // เป็นหน้าเฟสบุ๊กแทน
-  customerReceivingImage String
-
-  statusInstallmentPayment statusInstallmentPayment @default(inProgress)
-
-  receiptImage      String[]
-  allIdReceiptImage String[]
-
-  over Int @default(0)
-
-  dueDates                   dueDates[]
-  timeLineInstallmentPayment timeLineInstallmentPayment[]
-}
-
-model dueDates {
-  id String @id @default(cuid())
-
-  dueDate       DateTime
-  paymentStatus paymentStatus @default(pending)
-
-  updatedAt DateTime?
-
-  pricePaid Int
-
-  installmentPayments   installmentPayments? @relation(fields: [installmentPaymentsId], references: [id])
-  installmentPaymentsId String?
-}
-
-model timeLineInstallmentPayment {
-  id String @id @default(cuid())
-
-  title   String
-  message String
-
-  createdAt DateTime @default(now())
-
-  creatBy User?   @relation(fields: [userId], references: [id])
-  userId  String?
-
-  installmentPaymentsId String
-  installmentPayments   installmentPayments @relation(fields: [installmentPaymentsId], references: [id])
-}
-
-model blog {
-  id String @id @default(cuid())
-
-  title    String
-  detail   String
-  typeBlog typeBlog
-
-  image String
 }

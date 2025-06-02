@@ -23,8 +23,16 @@
       "layer": {
         "app/CMS/page": "action-browser"
       }
+    },
+    "6674ae9f47fa31b3f37ed22c303510fe44bbf541": {
+      "workers": {
+        "app/CMS/Branches/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmkamtinwong%2FWORKER%2FPROJECTS%2FdeenaPhone%2Fsrc%2Fapp%2FCMS%2FBranches%2Floader.ts%22%2C%5B%22GetBranchs%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/CMS/Branches/page": "action-browser"
+      }
     }
   },
   "edge": {},
-  "encryptionKey": "1nfgA7GkrF3CJIt88ZO0neLJ49D6nTLmVe5saTgImjo="
+  "encryptionKey": "jwFEbPtlCK7VDSH4QYtlVKFpBu87kuPjW7G1dDtakvc="
 }

@@ -20,11 +20,13 @@ function ProductDetail(props: {
 }) {
   if (!props.installmentPayment) return;
   const installmentPayment = props.installmentPayment;
-  const slides = installmentPayment?.product.images.map((image) => (
+  const slides = installmentPayment?.product ? installmentPayment?.product.images.map((image) => (
     <Carousel.Slide key={image}>
       <Image alt="image" src={image} height={456} />
     </Carousel.Slide>
-  ));
+  )) :
+    <Image src='' height={456} />
+    ;
 
   return (
     <SimpleGrid cols={{ lg: 2, md: 1, xs: 1 }}>
@@ -45,12 +47,12 @@ function ProductDetail(props: {
 
         <Group justify="space-between" mt="lg">
           <Text fw={500} fz="lg">
-            {installmentPayment?.product.deviceName}
+            {installmentPayment?.product ? installmentPayment?.product.deviceName : ''}
           </Text>
         </Group>
 
         <Text fz="sm" c="dimmed" mt="sm">
-          {installmentPayment?.product.deviceDetail}
+          {installmentPayment?.product ? installmentPayment?.product.deviceDetail : ''}
         </Text>
 
         <Group justify="space-between" mt="md">
@@ -58,7 +60,7 @@ function ProductDetail(props: {
             <Text fz="xl" span fw={500} className={classes.price}>
               <NumberFormatter
                 prefix="฿ "
-                value={installmentPayment?.product.price}
+                value={installmentPayment?.product ? installmentPayment?.product.price : ''}
                 thousandSeparator
               />
             </Text>
@@ -79,78 +81,78 @@ function ProductDetail(props: {
         >
           <TextInput
             label="สาขาที่อยู่ของสินค้า"
-            value={installmentPayment?.product.branch.name}
+            value={installmentPayment?.product ? installmentPayment?.product.branch.name : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="ชื่อสินค้า"
-            value={installmentPayment?.product.deviceName}
+            value={installmentPayment?.product ? installmentPayment?.product.deviceName : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="รายละเอียดสินค้า"
-            value={installmentPayment?.product.deviceDetail}
+            value={installmentPayment?.product ? installmentPayment?.product.deviceDetail : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="รายคาเต็ม"
-            value={installmentPayment?.product.price}
+            value={installmentPayment?.product ? installmentPayment?.product.price : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="ราคาดาว"
-            value={installmentPayment?.product.deposit}
+            value={installmentPayment?.product ? installmentPayment?.product.deposit : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="จำนวนงวดผ่อน"
-            value={installmentPayment?.product.numberOfInstallments}
+            value={installmentPayment?.product ? installmentPayment?.product.numberOfInstallments : ''}
             placeholder="Input placeholder"
           />
           <TextInput
             label="จำนวนเงินต่อครั้งที่ผ่อนชำระ"
-            value={installmentPayment?.product.installmentAmount}
+            value={installmentPayment?.product ? installmentPayment?.product.installmentAmount : ''}
             placeholder="Input placeholder"
           />
           <Box hidden={props.customer}>
             <TextInput
               label="ไอคลาวด์"
-              value={installmentPayment?.product.icloud ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.icloud ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>
           <Box hidden={props.customer}>
             <TextInput
               label="รหัสผ่านไอคลาวด์"
-              value={installmentPayment?.product.passwordIcloud ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.passwordIcloud ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>
           <Box hidden={props.customer}>
             <TextInput
               label="ปลดล็อคหน้าจอ"
-              value={installmentPayment?.product.lockscreen ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.lockscreen ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>
           <Box hidden={props.customer}>
             <TextInput
               label="ไอโหลด"
-              value={installmentPayment?.product.idLoad ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.idLoad ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>
           <Box hidden={props.customer}>
             <TextInput
               label="รหัสผ่านไอโหลด"
-              value={installmentPayment?.product.passwordIcloud ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.passwordIcloud ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>
           <Box hidden={props.customer}>
             <TextInput
               label="อีมี่"
-              value={installmentPayment?.product.indentifier ?? ""}
+              value={installmentPayment?.product ? installmentPayment?.product.indentifier ?? "" : ''}
               placeholder="Input placeholder"
             />
           </Box>

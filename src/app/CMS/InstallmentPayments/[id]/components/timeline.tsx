@@ -9,10 +9,10 @@ function TimeLine(props: { data: TYPEINSTALLMENTPAYMENT | null }) {
   return (
     <Timeline
       mt={"md"}
-      active={props.data.timeLineInstallmentPayment.length}
+      active={props.data.timeLineInstallmentPayment ? props.data.timeLineInstallmentPayment.length : 0}
       bulletSize={18}
     >
-      {props.data.timeLineInstallmentPayment.map((timeline) => {
+      {props.data.timeLineInstallmentPayment ? props.data.timeLineInstallmentPayment.map((timeline) => {
         return (
           <Timeline.Item
             bullet={<IconCheck size={12} />}
@@ -31,7 +31,7 @@ function TimeLine(props: { data: TYPEINSTALLMENTPAYMENT | null }) {
             </Text>
           </Timeline.Item>
         );
-      })}
+      }) : <></>} 
     </Timeline>
   );
 }

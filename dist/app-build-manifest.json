@@ -53,6 +53,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/CMS/loading.js"
     ],
+    "/CMS/Branches/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/page.js"
+    ],
+    "/CMS/Branches/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Branches/loading.js"
+    ],
     "/CMS/InstallmentPayments/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -62,6 +72,21 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/CMS/InstallmentPayments/loading.js"
+    ],
+    "/CMS/Files/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Files/page.js"
+    ],
+    "/CMS/Files/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Files/loading.js"
+    ],
+    "/CMS/Files/createProduct/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/CMS/Files/createProduct/page.js"
     ]
   }
 }
